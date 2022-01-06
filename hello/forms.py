@@ -1,7 +1,7 @@
 from django import forms
-from hello.models import LogMessage
+from hello.models import Ticket
 
-class LogMessageForm(forms.ModelForm):
+class TicketCreateForm(forms.ModelForm):
     class Meta:
-        model = LogMessage
-        fields = ("message",)   # NOTE: the trailing comma is required
+        model = Ticket
+        fields = ('creationDate', 'serialNumber', 'modelNumber', 'assetTag', 'customer',)

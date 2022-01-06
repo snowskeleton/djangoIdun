@@ -1,9 +1,9 @@
 from django.urls import path
 from hello import views
-from hello.models import LogMessage
+from hello.models import Ticket
 
 home_list_view = views.HomeListView.as_view(
-    queryset=LogMessage.objects.order_by("-log_date")[:5],
+    queryset=Ticket.objects.order_by("-creationDate")[:5],
     context_object_name="message_list",
     template_name="hello/home.html",
 )

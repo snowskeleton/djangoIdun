@@ -1,8 +1,8 @@
 import re
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
-from hello.forms import LogMessageForm
-from hello.models import LogMessage
+from hello.forms import TicketCreateForm
+from hello.models import Ticket
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -11,7 +11,7 @@ from django.views.generic import ListView
 
 class HomeListView(ListView):
     """Renders the home page, with a list of all messages."""
-    model = LogMessage
+    model = Ticket
 
     def get_context_data(self, **kwargs):
         context = super(HomeListView, self).get_context_data(**kwargs)
@@ -34,12 +34,12 @@ def hello_there(request, name):
     )
 
 def log_message(request):
-    form = LogMessageForm(request.POST or None)
+    form = TicketCreateForm(request.POST or None)
 
     if request.method == "POST":
         if form.is_valid():
             message = form.save(commit=False)
-            message.log_date = datetime.now()
+            message.creationDate = datetime.now()
             message.save()
             return redirect("home")
     else:

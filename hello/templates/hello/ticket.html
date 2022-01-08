@@ -1,0 +1,12 @@
+{% extends "hello/layout.html" %}
+{% block title %}
+    Ticket
+{% endblock %}
+{% block content %}
+        <span class="ticketNumber">{{ ticketNumber }}</span>
+    <form method="POST" class="log-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">commit</button>
+    </form>
+{% endblock %}

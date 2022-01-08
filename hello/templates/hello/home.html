@@ -3,24 +3,24 @@
     Home
 {% endblock %}
 {% block content %}
-    <h2>Logged messages</h2>
+    <h2>Logged tickets</h2>
 
     {% if message_list %}
         <table class="message_list">
             <thead>
             <tr>
+                <th>Model</th>
                 <th>Date</th>
-                <th>Time</th>
-                <th>Message</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
             {% for message in message_list %}
                 <tr>
-                    <td>{{ message.creationDate | date:'d M Y' }}</td>
+                    <td>{{ message.modelNumber }}</td>
                     <td>{{ message.creationDate | time:'H:i:s' }}</td>
                     <td>
-                        {{ message.message }}
+                        {{ message.modelNumber }}
                     </td>
                 </tr>
             {% endfor %}

@@ -1,4 +1,3 @@
-import re
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
 from hello.forms import TicketCreateForm
@@ -32,6 +31,10 @@ def hello_there(request, name):
             'date': datetime.now()
         }
     )
+
+def ticket(request):
+
+    return render(request, "hello/ticket.html")
 
 def log_message(request):
     form = TicketCreateForm(request.POST or None)

@@ -21,6 +21,8 @@ class Ticket(models.Model):
     #     date = timezone.localtime(self.log_date)
     #     return f"'{self.message}' logged on {date.strftime('%A, %d %B, %Y at %X')}"
 
+    def __str__(self) -> str:
+        return super().__str__()
 
 class Device(models.Model):
     model = models.CharField(max_length=127)

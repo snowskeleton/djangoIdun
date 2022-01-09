@@ -1,13 +1,13 @@
 from django.test import TestCase
-from models import Ticket
+from hello.models import Ticket
 
 # Create your tests here.
 class TestViews(TestCase):
 
-    def setUpClass(cls):
-        import manage
-        manage.makemigrations()
-        manage.migrate()
+    # def setUpClass(cls):
+    #     import manage
+    #     manage.makemigrations()
+    #     manage.migrate()
 
     def setUp(self):
         Ticket.objects.create(serial="abc 123", model="the bestest", assetTag="8675309", customer="rudolph")

@@ -1,3 +1,4 @@
+from typing import List
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
 from hello.forms import TicketCreateForm
@@ -24,17 +25,19 @@ def contact(request):
 
 def hello_there(request, name):
     return render(
-        request,
-        'hello/hello_there.html',
-        {
-            'name': name,
-            'date': datetime.now()
-        }
+        request, 'hello/hello_there.html', { 'name': name, 'date': datetime.now() }
     )
 
-def ticket(request):
+# class TicketView(ListView):
+#     model = Ticket
 
-    return render(request, "hello/ticket.html")
+#     def get_context_data(self, **kwargs):
+#         print(**kwargs)
+#         context = super(TicketView, self).get_context_data(**kwargs)
+#         return context
+
+def ticket(request, ticket):
+    return render(request, "hello/ticket.html", { 'ticket': Ticket.objects.filter(id=ticket)})
 
 def log_message(request):
     form = TicketCreateForm(request.POST or None)

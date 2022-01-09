@@ -3,10 +3,25 @@
     Ticket
 {% endblock %}
 {% block content %}
-        <span class="ticketNumber">{{ ticketNumber }}</span>
-    <form method="POST" class="log-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">commit</button>
-    </form>
+        <span class="ticket">{{ ticket.id }}</span>
+        <table class="ticketDeets">
+            <thead>
+            <tr>
+                <th>Model</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ ticket.model}}</td>
+                    <td>{{ ticket.creationDate | time:'H:i:s' }}</td>
+                    <td>
+                        {{ ticket.model }}
+                        {{ ticket }}
+                    </td>
+                    <td>{{ ticket.id }}</td>
+                </tr>
+            </tbody>
+        </table>
 {% endblock %}

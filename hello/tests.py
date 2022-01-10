@@ -1,5 +1,5 @@
 from django.test import TestCase
-from hello.models import Ticket
+from models import Ticket
 
 # Create your tests here.
 class TestViews(TestCase):

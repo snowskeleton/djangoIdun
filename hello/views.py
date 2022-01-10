@@ -29,14 +29,6 @@ def hello_there(request, name):
         request, 'hello/hello_there.html', { 'name': name, 'date': datetime.now() }
     )
 
-# class TicketView(ListView):
-#     model = Ticket
-
-#     def get_context_data(self, **kwargs):
-#         print(**kwargs)
-#         context = super(TicketView, self).get_context_data(**kwargs)
-#         return context
-
 def ticket(request, ticket):
     return render(request, "hello/ticket.html", { 'tickets': Ticket.objects.filter(id=ticket)})
 

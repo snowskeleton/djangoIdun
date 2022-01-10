@@ -1,27 +1,29 @@
 {% extends "hello/layout.html" %}
 {% block title %}
-    Ticket
+Ticket
 {% endblock %}
 {% block content %}
-        <span class="ticket">{{ ticket.id }}</span>
-        <table class="ticketDeets">
-            <thead>
+    <span class="ticket">{{ ticket.id }}</span>
+    <table class="ticketDeets">
+        <thead>
             <tr>
                 <th>Model</th>
                 <th>Date</th>
                 <th>Status</th>
             </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ ticket.model}}</td>
-                    <td>{{ ticket.creationDate | time:'H:i:s' }}</td>
-                    <td>
-                        {{ ticket.model }}
-                        {{ ticket }}
-                    </td>
-                    <td>{{ ticket.id }}</td>
-                </tr>
-            </tbody>
-        </table>
+        </thead>
+        {% for ticket in tickets %}
+        <tbody>
+            <tr>
+                <td>{{ ticket.model }}</td>
+                <td>{{ ticket.creationDate | time:'H:i:s' }}</td>
+                <td>
+                    {{ ticket.model }}
+                    {{ ticket.serial }}
+                </td>
+                <td>{{ ticket.id }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 {% endblock %}

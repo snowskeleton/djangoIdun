@@ -15,6 +15,7 @@ class HomeListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeListView, self).get_context_data(**kwargs)
+        print(context)
         return context
 
 def about(request):
@@ -37,7 +38,7 @@ def hello_there(request, name):
 #         return context
 
 def ticket(request, ticket):
-    return render(request, "hello/ticket.html", { 'ticket': Ticket.objects.filter(id=ticket)})
+    return render(request, "hello/ticket.html", { 'tickets': Ticket.objects.filter(id=ticket)})
 
 def log_message(request):
     form = TicketCreateForm(request.POST or None)

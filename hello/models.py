@@ -1,7 +1,8 @@
 from django.db import models
+from hello.longLists import devices
 # from django.contrib.auth.models import User
 
-# from django.utils import timezone
+from django.utils import timezone
 
 
 class Ticket(models.Model):
@@ -9,17 +10,18 @@ class Ticket(models.Model):
     creationDate = models.DateTimeField("date logged", auto_now_add=True)
     serial = models.CharField(max_length=30, null=True, blank=True)
     model = models.CharField(
-        max_length=30,
+        max_length=90,
         null=True,
         blank=True,
-        choices=([("Dell3100Touch&USB", "Dell 3100 (Touch, +USB)")]),
+        choices=devices,
     )
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
-    # def __str__(self):
-    #     """Returns a string representation of a message."""
-    #     date = timezone.localtime(self.log_date)
-    #     return f"'{self.message}' logged on {date.strftime('%A, %d %B, %Y at %X')}"
+
+    def __str__(self):
+        """Returns a string representation of a message."""
+        date = timezone.localtime(self.log_date)
+        return f"'{self.message}' logged on {date.strftime('%A, %d %B, %Y at %X')}"
 
     def __str__(self) -> str:
         return super().__str__()

@@ -1,10 +1,12 @@
 from typing import List
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
-from hello.forms import TicketCreateForm
-from hello.models import Ticket
 from django.shortcuts import render
 from django.views.generic import ListView
+
+from hello.forms import PartAddForm, TicketCreateForm
+from hello.models import Ticket
+from hello.utils import hydrateTicket
 
 # def home(request):
 #     return render(request, "hello/home.html")
@@ -18,28 +20,29 @@ class HomeListView(ListView):
         print(context)
         return context
 
-def about(request):
-    return render(request, "hello/about.html")
-
-def contact(request):
-    return render(request, "hello/contact.html")
-
-def hello_there(request, name):
-    return render(
-        request, 'hello/hello_there.html', { 'name': name, 'date': datetime.now() }
-    )
 
 def ticket(request, ticket):
     return render(request, "hello/ticket.html", { 'tickets': Ticket.objects.filter(id=ticket)})
 
-def log_message(request):
+
+def addTicket(request):
     form = TicketCreateForm(request.POST or None)
 
     if request.method == "POST":
         if form.is_valid():
-            message = form.save(commit=False)
-            message.creationDate = datetime.now()
-            message.save()
-            return redirect("home")
+            ticket = form.save(commit=False)
+            ticket.creationDate = datetime.now()
+            ticket.save()
+            return redirect(f"/ticket/{ticket.id}")
     else:
-        return render(request, "hello/log_message.html", {"form": form})
+        return render(request, "hello/addTicket.html", {"form": form})
+
+def addPartToTicket(request, ticket):
+    ticket = hydrateTicket(ticket)
+    print(ticket)
+    form = PartAddForm(request.POST or None, ticket.model)
+
+    if request.method == "POST":
+        pass
+    else:
+        return render(request, "hello/addPart.html", {"form": form, "model": ticket})

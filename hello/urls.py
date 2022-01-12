@@ -16,8 +16,6 @@ home_list_view = views.HomeListView.as_view(
 urlpatterns = [
     path("", home_list_view, name="home"),
     path("ticket/<ticket>", views.ticket, name="ticket"), #HERE I AM avocado
-    path("hello/<name>", views.hello_there, name="hello_there"),
-    path("about/", views.about, name="about"),
-    path("contact/", views.contact, name="contact"),
-    path("log/", views.log_message, name="log"),
+    path("addPart/<ticket>", views.addPartToTicket, name="addPart"),
+    path("add/", views.addTicket, name="add"),
 ]

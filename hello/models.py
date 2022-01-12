@@ -43,4 +43,3 @@ class Part(models.Model):
     replaced = models.BooleanField(default=False)
     mpn = models.CharField(max_length=24)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    device = models.ForeignKey(Device, on_delete=models.CASCADE)

@@ -7,9 +7,10 @@ Ticket
     <table class="ticketDeets">
         <thead>
             <tr>
+                <th>Identifier</th>
                 <th>Model</th>
-                <th>Date</th>
-                <th>Status</th>
+                <th>Serial</th>
+                <th>Parts</th>
             </tr>
         </thead>
         {% for ticket in tickets %}
@@ -26,4 +27,9 @@ Ticket
         </tbody>
         {% endfor %}
     </table>
+    <body>
+        {% for note in notes %}
+
+        {% endfor %}
+    </body>
 {% endblock %}

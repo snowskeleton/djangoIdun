@@ -6,7 +6,6 @@ from django.views.generic import ListView
 
 from hello.forms import PartAddForm, TicketCreateForm
 from hello.models import Ticket
-from hello.utils import hydrateTicket
 
 # def home(request):
 #     return render(request, "hello/home.html")
@@ -38,8 +37,7 @@ def addTicket(request):
         return render(request, "hello/addTicket.html", {"form": form})
 
 def addPartToTicket(request, ticket):
-    ticket = hydrateTicket(ticket)
-    print(ticket)
+    ticket = Ticket.hydrate(ticket)
     form = PartAddForm(request.POST or None, ticket.model)
 
     if request.method == "POST":

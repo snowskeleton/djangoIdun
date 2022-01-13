@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from hello.longLists import devices
+from hello.longLists import devices, parts
+from hello.utils import fetchPartsFor
 # from django.contrib.auth.models import User
 
 
@@ -14,8 +15,19 @@ class Ticket(models.Model):
         blank=True,
         choices=devices,
     )
+    parts = models.CharField(
+        max_length=127,
+        null=False,
+        blank=False,
+        choices=fetchPartsFor(f'{model}')
+    )
+    #fetchPartsFor('Dell 3100 (Touch, +USB)')
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
+
+    @classmethod
+    def hydrate(ticketNum):
+        return Ticket.objects.get(id=ticketNum)
 
     def __str__(self):
         """Returns a string representation of a message."""

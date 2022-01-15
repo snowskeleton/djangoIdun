@@ -5,8 +5,8 @@
 {% block content %}
     <h2>Tickets</h2>
 
-    {% if message_list %}
-        <table class="message_list">
+    {% if tickets %}
+        <table class="tickets">
             <thead>
             <tr>
                 <th>Identifier</th>
@@ -16,17 +16,17 @@
             </tr>
             </thead>
             <tbody>
-            {% for message in message_list %}
+            {% for ticket in message_list %}
                 <tr>
-                    <td><a href="/ticket/{{ message.id }}">{{ message.id }}</a></td>
-                    <td>{{ message.model }}</td>
-                    <td>{{ message.serial }}</td>
-                    <td>{{ message.parts }}</td>
+                    <td><a href="/ticket/{{ ticket.id }}">{{ ticket.id }}</a></td>
+                    <td>{{ ticket.model }}</td>
+                    <td>{{ ticket.serial }}</td>
+                    <td>{{ ticket.parts }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>No messages have been logged. Use the <a href="{% url 'log' %}">Log Message form</a>.</p>
+        <p>No tickets have been logged. Use the <a href="{% url 'log' %}">Log Message form</a>.</p>
     {% endif %}
 {% endblock %}

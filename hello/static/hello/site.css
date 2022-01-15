@@ -1,7 +1,3 @@
-.message {
-    font-weight: 600;
-    color: blue;
-}
 .navbar {
     background-color: lightslategray;
     font-size: 1em;
@@ -30,11 +26,11 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-input[name=message] {
+input[name=ticket] {
     width: 80%;
 }
 
-.message_list th,td {
+.tickets th,td {
     text-align: left;
     padding-right: 15px;
 }

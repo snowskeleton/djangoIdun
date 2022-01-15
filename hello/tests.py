@@ -1,10 +1,10 @@
 from django.test import TestCase
-from models import Ticket
+from hello.models import Ticket
 
 # Create your tests here.
 class TestViews(TestCase):
 
-    # def setUpClass(cls):
+    # def setUpClass():
     #     import manage
     #     manage.makemigrations()
     #     manage.migrate()
@@ -14,7 +14,6 @@ class TestViews(TestCase):
 
     def test_makeTicket(self):
         self.assertIsNotNone(Ticket.objects.get(serial="abc 123"))
-        print("done")
 
 if __name__ == '__main__':
     TestCase.main()

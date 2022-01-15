@@ -18,7 +18,7 @@
             <tbody>
             {% for message in message_list %}
                 <tr>
-                    <td><a href="ticket/{{ message.id }}">{{ message.id }}</a></td>
+                    <td><a href="/ticket/{{ message.id }}">{{ message.id }}</a></td>
                     <td>{{ message.model }}</td>
                     <td>{{ message.serial }}</td>
                     <td>{{ message.parts }}</td>

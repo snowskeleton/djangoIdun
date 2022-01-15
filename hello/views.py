@@ -1,8 +1,10 @@
 from typing import List
+from django.http import request
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic import FormView, ListView
+from django.db.models import Q
 
 from hello.forms import PartAddForm, TicketCreateForm, SearchForm
 from hello.models import Ticket
@@ -40,13 +42,22 @@ class SearchView(FormView):
     template_name = 'search.html'
     form_class = SearchForm
 
-def search(request):
-    form = SearchForm(request.GET or request.POST)
+class SearchResultsView(ListView):
+    model = Ticket
+    template_name = 'searchResults.html'
 
-    if request.method == "POST":
-        pass
-    else:
-        return render(request, "hello/search.html", {"form": form})
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Ticket.objects.filter(
+           Q(id__icontains=query)
+        )
+        return object_list
+
+
+def search(request):
+    form = SearchForm(request.GET)
+
+    return render(request, "hello/search.html", {"form": form})
 
 
 def addPartToTicket(request, ticket):

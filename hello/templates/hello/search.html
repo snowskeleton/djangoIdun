@@ -3,7 +3,8 @@
     Search
 {% endblock %}
 {% block content %}
-    <form action={% url 'search' %} method='get'>
+    <form action="{% url 'searchResults' %}"" method='get'>
         {{ form }}
+        <!-- <button type="submit" class="save btn btn-default">Go!</button> -->
     </form>
 {% endblock %}

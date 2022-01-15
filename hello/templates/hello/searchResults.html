@@ -1,0 +1,17 @@
+{% extends "hello/layout.html" %}
+{% block title %}
+    Search
+{% endblock %}
+{% block content %}
+    <form action={% url 'searchResults' %} method='get'>
+    <form method='get' class="log-form">
+        {{ form }}
+    </form>
+    <ul>
+        {% for ticket in object_list %}
+        <li>
+            {{ ticket.id }}
+        </li>
+    </ul>
+        {% endfor %}
+{% endblock %}

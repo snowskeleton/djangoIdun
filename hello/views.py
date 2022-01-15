@@ -2,9 +2,9 @@ from typing import List
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import FormView, ListView
 
-from hello.forms import PartAddForm, TicketCreateForm
+from hello.forms import PartAddForm, TicketCreateForm, SearchForm
 from hello.models import Ticket
 
 # def home(request):
@@ -35,6 +35,19 @@ def addTicket(request):
             return redirect(f"/ticket/{ticket.id}")
     else:
         return render(request, "hello/addTicket.html", {"form": form})
+
+class SearchView(FormView):
+    template_name = 'search.html'
+    form_class = SearchForm
+
+def search(request):
+    form = SearchForm(request.GET or request.POST)
+
+    if request.method == "POST":
+        pass
+    else:
+        return render(request, "hello/search.html", {"form": form})
+
 
 def addPartToTicket(request, ticket):
     ticket = Ticket.hydrate(ticket)

@@ -25,3 +25,6 @@ class PartAddForm(forms.Form):
     # class Meta:
     #     model = Part
     #     fields = ('name',)
+
+class SearchForm(forms.Form):
+    q = forms.CharField(label='Search', max_length=127)

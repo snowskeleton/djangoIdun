@@ -18,4 +18,6 @@ urlpatterns = [
     path("ticket/<ticket>", views.ticket, name="ticket"), #HERE I AM avocado
     path("addPart/<ticket>", views.addPartToTicket, name="addPart"),
     path("add/", views.addTicket, name="add"),
+    # path("searchResults/", views.SearchView, name="search"),
+    path("search/", views.search, name="search"),
 ]

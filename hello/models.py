@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from hello.longLists import devices, parts
+from hello.longLists import devices
 from hello.utils import fetchPartsFor
 # from django.contrib.auth.models import User
 
@@ -21,7 +21,6 @@ class Ticket(models.Model):
         blank=False,
         choices=fetchPartsFor(f'{model}')
     )
-    #fetchPartsFor('Dell 3100 (Touch, +USB)')
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
 

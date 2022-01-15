@@ -18,7 +18,6 @@ class HomeListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeListView, self).get_context_data(**kwargs)
-        print(context)
         return context
 
 
@@ -38,9 +37,6 @@ def addTicket(request):
     else:
         return render(request, "hello/addTicket.html", {"form": form})
 
-class SearchView(FormView):
-    template_name = 'search.html'
-    form_class = SearchForm
 
 class SearchResultsView(ListView):
     model = Ticket
@@ -52,12 +48,6 @@ class SearchResultsView(ListView):
            Q(id__icontains=query)
         )
         return object_list
-
-
-def search(request):
-    form = SearchForm(request.GET)
-
-    return render(request, "hello/search.html", {"form": form})
 
 
 def addPartToTicket(request, ticket):

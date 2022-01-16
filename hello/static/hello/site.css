@@ -34,3 +34,32 @@ input[name=ticket] {
     text-align: left;
     padding-right: 15px;
 }
+.deetsHeader {
+    text-align: left;
+    font-size: 0.5em;
+    font-weight: 250;
+}
+
+.wrap {
+    width: 100%;
+    overflow:auto;
+    border-style: solid;
+}
+
+.fleft {
+    float:left; 
+    /* width: 50%; */
+    padding-left: 10px;
+}
+
+.fcenter{
+    float:left;
+    width: 50%;
+    margin-left:0.25%;
+}
+
+.fright {
+    float: right;
+    padding-right: 30px;
+    /* width: 50%; */
+}

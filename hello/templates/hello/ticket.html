@@ -1,35 +1,21 @@
 {% extends "hello/layout.html" %}
 {% block title %}
-Ticket
+Ticket #{{ ticket.id }}
 {% endblock %}
 {% block content %}
-    <span class="ticket">{{ ticket.id }}</span>
-    <table class="ticketDeets">
-        <thead>
-            <tr>
-                <th>Identifier</th>
-                <th>Model</th>
-                <th>Serial</th>
-                <th>Parts</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ ticket.id }}</td>
-                <td>{{ ticket.model }}</td>
-                <!-- <td>{{ ticket.creationDate | time:'H:i:s' }}</td> -->
-                <td>{{ ticket.serial }}</td>
-                <td>{{ ticket.parts }}</td>
-                {% for part in ticket.possibleParts %}
-                    <td>{{ part.name }}
-                {% endfor %}
-                <!-- <td><a href="/changePartsOnTicket/{{ ticket.id }}">Update Parts</a></td> -->
-            </tr>
-        </tbody>
-    </table>
-    <body>
-        {% for note in notes %}
-
-        {% endfor %}
-    </body>
+<div class="wrap">
+            <div class="fleft">
+                <p class="deetsHeader">TICKET: {{ ticket.id }}</p>
+                <p class="deetsHeader">MODEL: {{ ticket.serial }}</p>
+                <p class="deetsHeader">SERIAL: {{ ticket.serial }}</p>
+                <p class="deetsHeader">ASSET: {{ ticket.asset }}</p>
+                <p class="deetsHeader">SCHOOL: {{ ticket.asset }}</p>
+            </div>
+            <div class="fright">
+                <p class="deetsHeader">PARTS</p>
+                    <p>{{ ticket.partsNeeded }}</p>
+                <p class="deetsHeader">PARTS USED</p>
+                    <p>{{ ticket.partsUsed }}</p>
+            </div>
+</div>
 {% endblock %}

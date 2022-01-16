@@ -24,13 +24,12 @@ class Ticket(models.Model):
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
 
-    def possibleParts(self):
-        print(parts)
+    def partsToAdd(self):
         for (key, value) in parts.items():
             if key == self.model:
-                print(value)
                 return str(value)
-        return parts.get('Generic')
+        return parts.get('Generic') #return generic parts if the above didn't match anything
+
 
     def __str__(self):
         return f"{self.message}"

@@ -29,6 +29,27 @@ class Ticket(models.Model):
             if key == self.model:
                 return str(value)
         return parts.get('Generic') #return generic parts if the above didn't match anything
+    
+    def partsPossible(self):
+        arr = []
+        for (key, value) in parts.items():
+            if key == self.model:
+                arr.append(value)
+        return arr
+
+    def partsNeeded(self):
+        arr = []
+        for part in self.parts:
+            if part.replaced != True:
+                arr.append(part)
+        return arr
+
+    def partsReplaced(self):
+        arr = []
+        for part in self.parts:
+            if part.replaced != False:
+                arr.append(part)
+        return arr
 
 
     def __str__(self):

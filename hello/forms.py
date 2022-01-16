@@ -8,6 +8,11 @@ class TicketCreateForm(forms.ModelForm):
         model = Ticket
         fields = ('serial', 'model', 'assetTag', 'customer',)
 
+class AddPartsForm(forms.Form):
+    class Meta:
+        model = Ticket
+        fields = ('parts')
+
 class PartCreateForm(forms.ModelForm):
     class Meta:
         model = Part
@@ -16,7 +21,6 @@ class PartCreateForm(forms.ModelForm):
 class ChangePartsOnTicketForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs) #calls standard init
-        print(args)
         lib = fetchPartsFor(args)
         # some = fetchPartsFor('Dell 3100 (Touch, +USB)')
         self.fields['parts'] = forms.ChoiceField(

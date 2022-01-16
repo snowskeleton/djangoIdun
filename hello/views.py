@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views.generic import FormView, ListView
 from django.db.models import Q
 
-from hello.forms import PartAddForm, TicketCreateForm, SearchForm
+from hello.forms import ChangePartsOnTicketForm, TicketCreateForm, SearchForm
 from hello.models import Ticket
 
 # def home(request):
@@ -22,7 +22,7 @@ class HomeListView(ListView):
 
 
 def ticket(request, ticket):
-    return render(request, "hello/ticket.html", { 'tickets': Ticket.objects.filter(id=ticket)})
+    return render(request, "hello/ticket.html", { 'ticket': Ticket.objects.filter(id=ticket)[0]})
 
 
 def addTicket(request):
@@ -50,9 +50,10 @@ class SearchResultsView(ListView):
         return object_list
 
 
-def addPartToTicket(request, ticket):
-    ticket = Ticket.hydrate(ticket)
-    form = PartAddForm(request.POST or None, ticket.model)
+def changePartsOnTicket(request, ticket):
+    ticket = Ticket.objects.filter(id=ticket)
+    form = ChangePartsOnTicketForm(request.POST or None, ticket.model)
+    form.model = ticket.model
 
     if request.method == "POST":
         pass

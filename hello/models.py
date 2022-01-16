@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from hello.longLists import devices
+from hello.longLists import devices, parts
 from hello.utils import fetchPartsFor
 # from django.contrib.auth.models import User
 
@@ -24,17 +24,16 @@ class Ticket(models.Model):
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
 
-    @classmethod
-    def hydrate(ticketNum):
-        return Ticket.objects.get(id=ticketNum)
+    def possibleParts(self):
+        print(parts)
+        for (key, value) in parts.items():
+            if key == self.model:
+                print(value)
+                return str(value)
+        return parts.get('Generic')
 
     def __str__(self):
-        """Returns a string representation of a message."""
-        date = timezone.localtime(self.log_date)
-        return f"'{self.message}' logged on {date.strftime('%A, %d %B, %Y at %X')}"
-
-    def __str__(self) -> str:
-        return super().__str__()
+        return f"{self.message}"
 
 class Device(models.Model):
     model = models.CharField(max_length=127)

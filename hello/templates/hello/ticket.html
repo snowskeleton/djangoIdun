@@ -13,19 +13,19 @@ Ticket
                 <th>Parts</th>
             </tr>
         </thead>
-        {% for ticket in tickets %}
         <tbody>
             <tr>
-                <td>{{ ticket.model }}</td>
-                <td>{{ ticket.creationDate | time:'H:i:s' }}</td>
-                <td>
-                    {{ ticket.model }}
-                    {{ ticket.serial }}
-                </td>
                 <td>{{ ticket.id }}</td>
+                <td>{{ ticket.model }}</td>
+                <!-- <td>{{ ticket.creationDate | time:'H:i:s' }}</td> -->
+                <td>{{ ticket.serial }}</td>
+                <td>{{ ticket.parts }}</td>
+                {% for part in ticket.possibleParts %}
+                    <td>{{ part.name }}
+                {% endfor %}
+                <!-- <td><a href="/changePartsOnTicket/{{ ticket.id }}">Update Parts</a></td> -->
             </tr>
         </tbody>
-        {% endfor %}
     </table>
     <body>
         {% for note in notes %}

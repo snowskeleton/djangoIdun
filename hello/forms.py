@@ -1,6 +1,6 @@
 from django import forms
 from hello.models import Part, Ticket
-from hello.longLists import parts
+from hello.longLists import parts, devices
 from hello.utils import fetchPartsFor
 
 class TicketCreateForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class PartCreateForm(forms.ModelForm):
         model = Part
         fields = ('cost', 'replaced', 'mpn')
 
-class PartAddForm(forms.Form):
+class ChangePartsOnTicketForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs) #calls standard init
         print(args)
@@ -23,8 +23,14 @@ class PartAddForm(forms.Form):
         choices=lib)
 
     # class Meta:
-    #     model = Part
-    #     fields = ('name',)
+        # model = 
+    # class Meta:
+    deviceModel = "generic"
+    parts = fetchPartsFor(deviceModel)
+    fields = (
+        'part',
+        "model",
+        )
 
 # class PartAddForm(forms.Form):
 #     class Meta:

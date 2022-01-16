@@ -3,19 +3,18 @@
     Search
 {% endblock %}
 {% block content %}
-    <form action={% url 'searchResults' %} method='get'>
-    <form method='get' class="log-form">
-        {{ form }}
-    </form>
     <ul>
-        {% for ticket in object_list %}
-                <tr>
-                    <td><a href="/ticket/{{ ticket.id }}">{{ ticket.id }}</a></td>
-                    <td>{{ ticket.model }}</td>
-                    <td>{{ ticket.serial }}</td>
-                    <td>{{ ticket.parts }}</td>
-                </tr>
+        {% if object_list %}
+            {% for ticket in object_list %}
+                    <tr>
+                        <td><a href="/ticket/{{ ticket.id }}">{{ ticket.id }}</a></td>
+                        <td>{{ ticket.model }}</td>
+                        <td>{{ ticket.serial }}</td>
+                        <td>{{ ticket.parts }}</td>
+                    </tr>
+            {% endfor %}
+        {% else %}
+            <p>No results :(</p>
+        {% endif %}
     </ul>
-        {% endfor %}
 {% endblock %}
-{% include "hello/home.html" %}

@@ -26,5 +26,19 @@ class PartAddForm(forms.Form):
     #     model = Part
     #     fields = ('name',)
 
+# class PartAddForm(forms.Form):
+#     class Meta:
+#         model = Part
+#         fields = (
+#             'model',
+#             'part',
+#             )
+
+#     def __init__(self, *args, **kwargs):
+#         super(PartAddForm, self).__init__(*args, **kwargs)        
+#         self.fields['model'] = forms.ChoiceField(choices=[devices])
+#         self.fields['part'].queryset = parts(pk=1)
+
+
 class SearchForm(forms.Form):
     q = forms.CharField(label='Search', max_length=127)

@@ -13,18 +13,19 @@ Ticket #{{ ticket.id }}
             </div>
             <div class="fright">
                 <p class="deetsHeader">PARTS</p>
-                {% for part in ticket.partsNeeded %}
-                    <p>{{ ticket.partsNeeded }}</p>
+                    <p>{{ ticket.parts }}</p>
+                {% for part in ticket.parts %}
+                    <p>{{ part.name }}</p>
                 {% endfor %}
                 <p class="deetsHeader">PARTS USED</p>
-                {% for part in ticket.partsUsed %}
-                    <p>{{ ticket.partsUsed }}</p>
+                {% for part in ticket.parts %}
+                    <p>{{ part }}</p>
                 {% endfor %}
             </div>
 </div>
     <form method="POST" class="log-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="select" class="save btn btn-default">Log</button>
+        <button type="select" class="save btn btn-default">Add</button>
     </form>
 {% endblock %}

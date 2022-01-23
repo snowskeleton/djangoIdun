@@ -120,7 +120,7 @@ parts = {
             "cost": 39.99,
         },
         {
-            "name": "Battery - 918669-855",
+            "name": "Battery",
             "sku": "BAT-SNG-6841-1",
             "mpn": "918669-855",
             "cost": 49.99,

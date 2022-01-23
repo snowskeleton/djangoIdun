@@ -80,5 +80,6 @@ def changePartsOnTicket(request, ticket):
 
     if request.method == "POST":
         pass
+        # print(form.cleaned_data)
     else:
         return render(request, "hello/addPart.html", {"form": form, "model": ticket})

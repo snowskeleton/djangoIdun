@@ -29,12 +29,12 @@ class Ticket(models.Model):
         blank=True,
         choices=devices,
     )
-    parts = models.CharField(
-        max_length=127,
-        null=False,
-        blank=False,
-        choices=fetchPartsFor(f'{model}')
-    )
+    # parts = models.CharField(
+    #     max_length=127,
+    #     null=False,
+    #     blank=False,
+    #     choices=fetchPartsFor(f'{model}')
+    # )
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
 
@@ -52,7 +52,13 @@ class Ticket(models.Model):
         for (key, value) in parts.items():
             if key == self.model:
                 arr = value
-        return arr
+        if len(arr) > 0:
+            return arr
+        else:
+            for (key, value) in parts.items():
+                if key == 'Generic':
+                    arr = value
+            return arr
 
     def partsNeeded(self):
         arr = []

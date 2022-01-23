@@ -11,7 +11,7 @@ home_list_view = views.HomeListView.as_view(
 urlpatterns = [
     path("", home_list_view, name="home"),
     path("ticket/<ticket>", views.ticket, name="ticket"),
-    path("changePartsOnTicket/<ticket>", views.changePartsOnTicket, name="addPart"),
+    # path("changePartsOnTicket/<ticket>", views.changePartsOnTicket, name="addPart"),
     path("add/", views.addTicket, name="add"),
     path("searchResults/", views.SearchResultsView.as_view(), name="searchResults"),
 ]

@@ -1,22 +1,6 @@
 from django.db import models
 from hello.longLists import devices, parts
-from hello.utils import fetchPartsFor
-# from django.contrib.auth.models import User
 
-
-# class UselessModel(models.Model):
-#     parts = models.CharField(
-#         max_length=90,
-#         null=True,
-#         blank=True,
-#         choices=[devices],
-#     )
-#     # parts = models.CharField(
-#     #     max_length=127,
-#     #     null=False,
-#     #     blank=False,
-#     #     choices=[1, 2, 3]
-#     # )
 
 
 class Ticket(models.Model):
@@ -29,17 +13,19 @@ class Ticket(models.Model):
         blank=True,
         choices=devices,
     )
-    # parts = models.CharField(
-    #     max_length=127,
-    #     null=False,
-    #     blank=False,
-    #     choices=fetchPartsFor(f'{model}')
-    # )
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
 
     def parts(self):
         return Part.objects.filter(ticket=self)
+
+    def prettyParts(self):
+        parts = []
+        _parts = Part.objects.filter(ticket=self)
+
+        for part in _parts:
+            parts.append(part.name)
+        return parts if len(parts) > 0 else '--none--'
 
     def partsToAdd(self):
         for (key, value) in parts.items():
@@ -100,10 +86,11 @@ class Part(models.Model):
     @classmethod
     def spawn(self, ticket, part):
         return Part(
-        costl= part["cost"] if part["cost"] else 0,
+        cost = part["cost"] if part["cost"] else 0,
         name = part["name"],
         mpn = part["mpn"] if part["mpn"] else "--blank--",
         ticket = ticket,
         ordered = False,
         replaced = False,
-        )
+
+        ).save()

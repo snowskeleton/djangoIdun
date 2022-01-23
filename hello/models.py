@@ -1,8 +1,22 @@
 from django.db import models
-from django.utils import timezone
 from hello.longLists import devices, parts
 from hello.utils import fetchPartsFor
 # from django.contrib.auth.models import User
+
+
+# class UselessModel(models.Model):
+#     parts = models.CharField(
+#         max_length=90,
+#         null=True,
+#         blank=True,
+#         choices=[devices],
+#     )
+#     # parts = models.CharField(
+#     #     max_length=127,
+#     #     null=False,
+#     #     blank=False,
+#     #     choices=[1, 2, 3]
+#     # )
 
 
 class Ticket(models.Model):
@@ -24,6 +38,9 @@ class Ticket(models.Model):
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
 
+    def parts(self):
+        return Part.objects.filter(ticket=self)
+
     def partsToAdd(self):
         for (key, value) in parts.items():
             if key == self.model:
@@ -34,7 +51,7 @@ class Ticket(models.Model):
         arr = []
         for (key, value) in parts.items():
             if key == self.model:
-                arr.append(value)
+                arr = value
         return arr
 
     def partsNeeded(self):
@@ -52,8 +69,8 @@ class Ticket(models.Model):
         return arr
 
 
-    def __str__(self):
-        return f"{self.message}"
+    # def __str__(self):
+    #     return f"{self.message}"
 
 class Device(models.Model):
     model = models.CharField(max_length=127)
@@ -73,3 +90,14 @@ class Part(models.Model):
     replaced = models.BooleanField(default=False)
     mpn = models.CharField(max_length=24)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+
+    @classmethod
+    def spawn(self, ticket, part):
+        return Part(
+        costl= part["cost"] if part["cost"] else 0,
+        name = part["name"],
+        mpn = part["mpn"] if part["mpn"] else "--blank--",
+        ticket = ticket,
+        ordered = False,
+        replaced = False,
+        )

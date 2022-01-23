@@ -1,16 +1,13 @@
 from typing import List
-from django.http import request
 from django.utils.timezone import datetime
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.views.generic import FormView, ListView
+from django.views.generic import ListView
 from django.db.models import Q
 
-from hello.forms import AddPartsForm, ChangePartsOnTicketForm, TicketCreateForm, SearchForm
-from hello.models import Ticket
+from .forms import AddPartsForm, TicketCreateForm, PartsForm
+from .models import Ticket, Part
 
-# def home(request):
-#     return render(request, "hello/home.html")
 
 class HomeListView(ListView):
     """Renders the home page, with a list of all messages."""
@@ -21,9 +18,35 @@ class HomeListView(ListView):
         return context
 
 
+# def form_handle(request):
+#     form = PartsForm()
+#     if request.method=='POST':
+#         form = PartsForm(request.POST)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             #now in the object cd, you have the form as a dictionary.
+#             part = cd.get('part')
+
+
+
 def ticket(request, ticket):
-    form = AddPartsForm(request.POST or None)
-    return render(request, "hello/ticket.html", { 'form': form, 'ticket': Ticket.objects.filter(id=ticket)[0]})
+    ticket = Ticket.objects.filter(id=ticket)[0]
+    form = PartsForm(ticket=ticket) #.__init__(self, ticket=ticket)
+
+    if request.method == "POST":
+        form = PartsForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            for val in ticket.partsPossible():
+                if val["name"] == cd:
+                    Part.spawn(ticket, val)
+                else:
+                    pass #and say something about it not being valid.
+
+            return redirect(f"/ticket/{ticket.id}")
+    else:
+        return render(request, "hello/ticket.html", { 'form': form, 'ticket': ticket})
+    # return render(request, "hello/ticket.html", { 'form': form, 'ticket': Ticket.objects.filter(id=ticket)[0]})
 
 
 def addTicket(request):
@@ -53,7 +76,7 @@ class SearchResultsView(ListView):
 
 def changePartsOnTicket(request, ticket):
     ticket = Ticket.objects.filter(id=ticket)
-    form = AddPartsForm(request.POST or None, ticket.model)
+    form = AddPartsForm(request.POST or None, ticket)
 
     if request.method == "POST":
         pass

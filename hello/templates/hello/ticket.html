@@ -13,7 +13,9 @@ Ticket #{{ ticket.id }}
             </div>
             <div class="fright">
                 <p class="deetsHeader">PARTS</p>
-                    <p>{{ ticket.parts }}</p>
+                <!-- {% for i in ticket.partsPossible %}
+                    {{ i }}
+                {% endfor %} -->
                 {% for part in ticket.parts %}
                     <p>{{ part.name }}</p>
                 {% endfor %}

@@ -1,5 +1,5 @@
 from django.db import models
-from hello.longLists import devices, parts
+from . import longLists
 
 
 
@@ -11,7 +11,7 @@ class Ticket(models.Model):
         max_length=90,
         null=True,
         blank=True,
-        choices=devices,
+        choices=longLists.devices,
     )
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
@@ -20,45 +20,35 @@ class Ticket(models.Model):
         return Part.objects.filter(ticket=self)
 
     def prettyParts(self):
-        parts = []
-        _parts = Part.objects.filter(ticket=self)
-
-        for part in _parts:
-            parts.append(part.name)
-        return parts if len(parts) > 0 else '--none--'
+        prettyParts = []
+        for part in self.parts():
+            prettyParts.append(part.name)
+        return ', '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
     def partsToAdd(self):
-        for (key, value) in parts.items():
+        for (key, value) in longLists.parts.items():
             if key == self.model:
                 return str(value)
-        return parts.get('Generic') #return generic parts if the above didn't match anything
+        return longLists.parts.get('Generic') #return generic parts if the above didn't match anything
     
     def partsPossible(self):
         arr = []
-        for (key, value) in parts.items():
+        for (key, value) in longLists.parts.items():
             if key == self.model:
                 arr = value
         if len(arr) > 0:
             return arr
-        else:
-            for (key, value) in parts.items():
-                if key == 'Generic':
-                    arr = value
-            return arr
+        #else
+        for (key, value) in longLists.parts.items():
+            if key == 'Generic':
+                arr = value
+        return arr
 
     def partsNeeded(self):
-        arr = []
-        for part in self.parts:
-            if part.replaced != True:
-                arr.append(part)
-        return arr
+        return self.parts().filter(replaced=False)
 
-    def partsReplaced(self):
-        arr = []
-        for part in self.parts:
-            if part.replaced != False:
-                arr.append(part)
-        return arr
+    def partsUsed(self):
+        return self.parts().filter(replaced=True)
 
 
     # def __str__(self):
@@ -92,5 +82,4 @@ class Part(models.Model):
         ticket = ticket,
         ordered = False,
         replaced = False,
-
         ).save()

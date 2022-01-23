@@ -1,15 +1,10 @@
 from django import forms
-from hello.models import Part, Ticket
+from hello.models import Ticket
 
 class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ('serial', 'model', 'assetTag', 'customer',)
-
-class AddPartsForm(forms.ModelForm):
-    class Meta:
-        model = Ticket
-        fields = ('serial',)
 
 class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelForm
 
@@ -21,11 +16,6 @@ class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelFor
         self.fields['parts'] = forms.ChoiceField(choices=parts)
     class Meta:
         fields = ('parts',)
-
-class PartCreateForm(forms.ModelForm):
-    class Meta:
-        model = Part
-        fields = ('cost', 'replaced', 'mpn',)
 
 class SearchForm(forms.Form):
     q = forms.CharField(label='Search', max_length=127)

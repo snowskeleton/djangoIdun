@@ -52,14 +52,3 @@ class SearchResultsView(ListView):
            Q(id__icontains=query)
         )
         return object_list
-
-
-# def changePartsOnTicket(request, ticket):
-#     ticket = Ticket.objects.filter(id=ticket)
-#     form = AddPartsForm(request.POST or None, ticket)
-
-#     if request.method == "POST":
-#         pass
-#         # print(form.cleaned_data)
-#     else:
-#         return render(request, "hello/addPart.html", {"form": form, "model": ticket})

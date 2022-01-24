@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from django.db.models import Q
 
-from .forms import TicketCreateForm, PartsForm
+from .forms import TicketCreateForm, PartsForm, DeleteButton
 from .models import Ticket, Part
 
 
@@ -29,10 +29,26 @@ def ticket(request, ticket):
     else:
         return render(request, "hello/ticket.html", { 'form': form, 'ticket': ticket})
 
+def part(request, part):
+    part = Part.objects.filter(id=part)[0]
+    form = DeleteButton(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        if request.POST['action'] == 'Order':
+            part.ordered ^= True
+        if request.POST['action'] == 'Replace':
+            part.replaced ^= True
+        if request.POST['action'] == 'Delete':
+            part.delete()
+        part.save()
+        return redirect(f"/ticket/{part.ticket.id}")
+
+    return render(request, "hello/part.html", {'form': form , 'part': part})
 
 def addTicket(request):
     form = TicketCreateForm(request.POST or None)
 
+    print(form)
     if request.method == "POST" and form.is_valid():
         ticket = form.save(commit=False)
         ticket.creationDate = datetime.now()

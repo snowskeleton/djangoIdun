@@ -12,5 +12,6 @@ urlpatterns = [
     path("", home_list_view, name="home"),
     path("ticket/<ticket>", views.ticket, name="ticket"),
     path("add/", views.addTicket, name="add"),
+    path("part/<part>", views.part, name="part"),
     path("searchResults/", views.SearchResultsView.as_view(), name="searchResults"),
 ]

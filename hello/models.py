@@ -72,6 +72,8 @@ class Part(models.Model):
     replaced = models.BooleanField(default=False)
     mpn = models.CharField(max_length=24)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    def needed(self):
+        return True if self.replaced == False else False
 
     @classmethod
     def spawn(self, ticket, part):
@@ -79,6 +81,7 @@ class Part(models.Model):
         cost = part["cost"] if part["cost"] else 0,
         name = part["name"],
         mpn = part["mpn"] if part["mpn"] else "--blank--",
+        sku = part["sku"] if part["sku"] else "--blank--",
         ticket = ticket,
         ordered = False,
         replaced = False,

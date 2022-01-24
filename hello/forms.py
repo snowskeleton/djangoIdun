@@ -1,3 +1,4 @@
+from tkinter import Button
 from django import forms
 from hello.models import Ticket
 
@@ -19,3 +20,7 @@ class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelFor
 
 class SearchForm(forms.Form):
     q = forms.CharField(label='Search', max_length=127)
+
+
+class DeleteButton(forms.Form):
+    button = forms.CharField(required=False)

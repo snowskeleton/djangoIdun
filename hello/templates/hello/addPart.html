@@ -1,0 +1,10 @@
+{% extends "hello/layout.html" %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<form method="POST" class="log-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="select" class="save btn btn-default">Add</button>
+</form>
+{% endblock %}

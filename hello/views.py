@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from django.db.models import Q
 
-from .forms import NoteForm, TicketCreateForm, PartsForm, DeleteButton
+from .forms import NoteForm, TicketCreateForm, PartsForm, ButtonButton
 from .models import Ticket, Part
 
 
@@ -18,9 +18,24 @@ class HomeListView(ListView):
 
 
 def ticket(request, ticket):
-    ticket = Ticket.objects.filter(id=ticket)[0]
+    ticket = Ticket.whoamI(ticket)
+    form = ButtonButton(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        if request.POST['action'] == 'Add Part':
+            return redirect(f"/addPart/{ticket.id}")
+        if request.POST['action'] == 'Add Note':
+            return redirect(f"/note/{ticket.id}")
+        if request.POST['action'] == 'Change Status':
+            pass
+        # part.save()
+        return redirect(f"/ticket/{ticket.id}")
+    return render(request, "hello/ticket.html", {'ticket': ticket })
+
+
+def addPart(request, ticket):
+    ticket = Ticket.whoamI(ticket)
     form = PartsForm(ticket=ticket)
-    noteForm = NoteForm()
 
     if request.method == "POST":
         for part in ticket.partsPossible():
@@ -28,10 +43,11 @@ def ticket(request, ticket):
                 Part.spawn(ticket, part)
         return redirect(f"/ticket/{ticket.id}")
     else:
-        return render(request, "hello/ticket.html", { 'form': form, 'ticket': ticket })
+        return render(request, "hello/addPart.html", { 'form': form, 'ticket': ticket})
+
 
 def note(request, ticket):
-    ticket = Ticket.objects.filter(id=ticket)[0]
+    ticket = Ticket.whoamI(ticket)
     form = NoteForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -41,21 +57,24 @@ def note(request, ticket):
         return redirect(f"/ticket/{note.ticket.id}")
     return render(request, "hello/note.html", { 'form': form, 'ticket': ticket})
 
+
 def part(request, part):
     part = Part.objects.filter(id=part)[0]
-    form = DeleteButton(request.POST or None)
+    form = ButtonButton(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         if request.POST['action'] == 'Order':
             part.ordered ^= True
+            part.save()
         if request.POST['action'] == 'Replace':
             part.replaced ^= True
+            part.save()
         if request.POST['action'] == 'Delete':
             part.delete()
-        part.save()
         return redirect(f"/ticket/{part.ticket.id}")
 
     return render(request, "hello/part.html", {'form': form , 'part': part})
+
 
 def addTicket(request):
     form = TicketCreateForm(request.POST or None)

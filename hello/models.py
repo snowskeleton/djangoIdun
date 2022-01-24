@@ -15,6 +15,11 @@ class Ticket(models.Model):
         choices=longLists.devices,
     )
   
+    @classmethod
+    def whoamI(self, ticket):
+        return Ticket.objects.filter(id=ticket)[0]
+
+
     def notes(self):
         return Note.objects.filter(ticket=self)
 

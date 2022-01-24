@@ -27,10 +27,11 @@ Ticket #{{ ticket.id }}
                 </p>
             </div>
 </div>
-<form method="POST" class="log-form">
+<form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="select" class="save btn btn-default">Add</button>
+    <input type="submit" name="action" value="Add Part">
+    <input type="submit" name="action" value="Add Note">
+    <input type="submit" name="action" value="Change Status">
 </form>
 
 <div class="notesOnTicket">

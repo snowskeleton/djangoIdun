@@ -10,6 +10,7 @@ Ticket #{{ ticket.id }}
                 <p class="deetsHeader">SERIAL: {{ ticket.serial }}</p>
                 <p class="deetsHeader">ASSET: {{ ticket.assetTag }}</p>
                 <p class="deetsHeader">SCHOOL: {{ ticket.customer }}</p>
+                <p class="deetsHeader">STATUS: {{ ticket.status }}</p>
             </div>
             <div class="fright">
                 <p class="deetsHeader">PARTS</p>
@@ -19,9 +20,11 @@ Ticket #{{ ticket.id }}
                     {% endfor %}
                 </p>
                 <p class="deetsHeader">PARTS USED</p>
-                {% for part in ticket.partsUsed %}
-                    <p>{{ part.name }}</p>
-                {% endfor %}
+                <p class="deetsHeader">
+                    {% for part in ticket.partsUsed %}
+                        <a href="/part/{{ part.id }}">{{ part.name }}</a>;
+                    {% endfor %}
+                </p>
             </div>
 </div>
     <form method="POST" class="log-form">

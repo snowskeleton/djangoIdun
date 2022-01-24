@@ -2,19 +2,19 @@ from django.db import models
 from . import longLists
 
 
-
 class Ticket(models.Model):
 
     creationDate = models.DateTimeField("date logged", auto_now_add=True)
     serial = models.CharField(max_length=30, null=True, blank=True)
+    assetTag = models.CharField(max_length=30, null=True, blank=True)
+    customer = models.CharField(max_length=30, null=True, blank=False)
     model = models.CharField(
         max_length=90,
         null=True,
         blank=True,
         choices=longLists.devices,
     )
-    assetTag = models.CharField(max_length=30, null=True, blank=True)
-    customer = models.CharField(max_length=30, null=True, blank=False)
+  
 
     def parts(self):
         return Part.objects.filter(ticket=self)
@@ -51,9 +51,6 @@ class Ticket(models.Model):
         return self.parts().filter(replaced=True)
 
 
-    # def __str__(self):
-    #     return f"{self.message}"
-
 class Device(models.Model):
     model = models.CharField(max_length=127)
 
@@ -71,6 +68,7 @@ class Part(models.Model):
     ordered = models.BooleanField(default=False)
     replaced = models.BooleanField(default=False)
     mpn = models.CharField(max_length=24)
+    sku = models.CharField(max_length=24)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     def needed(self):
         return True if self.replaced == False else False

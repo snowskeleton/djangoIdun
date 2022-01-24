@@ -36,11 +36,12 @@ def part(request, part):
     if request.method == 'POST' and form.is_valid():
         if request.POST['action'] == 'Order':
             part.ordered ^= True
+            part.save()
         if request.POST['action'] == 'Replace':
             part.replaced ^= True
+            part.save()
         if request.POST['action'] == 'Delete':
             part.delete()
-        part.save()
         return redirect(f"/ticket/{part.ticket.id}")
 
     return render(request, "hello/part.html", {'form': form , 'part': part})

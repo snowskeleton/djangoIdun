@@ -1,0 +1,25 @@
+{% extends "hello/layout.html" %}
+{% block title %}
+Part #{{ part.name }}
+{% endblock %}
+{% block content %}
+<div class="wrap">
+            <div class="fleft">
+                <p>NAME: {{ part.name }}</p>
+                <p>MPN: {{ part.mpn }}</p>
+                <p>COST: {{ part.cost }}</p>
+                <p>SKU: {{ part.sku }}</p>
+            </div>
+            <div class="fright">
+                <p>ORDERED: {{ part.ordered }}</p>
+                <p>NEEDED: {{ part.needed }}</p>
+                <p>REPLACED: {{ part.replaced }}</p>
+            </div>
+</div>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" name="action" value="Order">
+    <input type="submit" name="action" value="Replace">
+    <input type="submit" name="action" value="Delete">
+</form>
+{% endblock %}

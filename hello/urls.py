@@ -13,5 +13,6 @@ urlpatterns = [
     path("ticket/<ticket>", views.ticket, name="ticket"),
     path("add/", views.addTicket, name="add"),
     path("part/<part>", views.part, name="part"),
+    path("note/<ticket>", views.note, name="note"),
     path("searchResults/", views.SearchResultsView.as_view(), name="searchResults"),
 ]

@@ -1,6 +1,6 @@
 from tkinter import Button
 from django import forms
-from hello.models import Ticket
+from hello.models import Note, Ticket
 
 class TicketCreateForm(forms.ModelForm):
     class Meta:
@@ -24,3 +24,8 @@ class SearchForm(forms.Form):
 
 class DeleteButton(forms.Form):
     button = forms.CharField(required=False)
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ('body',)

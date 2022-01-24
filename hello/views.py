@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from django.db.models import Q
 
-from .forms import TicketCreateForm, PartsForm, DeleteButton
+from .forms import NoteForm, TicketCreateForm, PartsForm, DeleteButton
 from .models import Ticket, Part
 
 
@@ -20,6 +20,7 @@ class HomeListView(ListView):
 def ticket(request, ticket):
     ticket = Ticket.objects.filter(id=ticket)[0]
     form = PartsForm(ticket=ticket)
+    noteForm = NoteForm()
 
     if request.method == "POST":
         for part in ticket.partsPossible():
@@ -27,7 +28,18 @@ def ticket(request, ticket):
                 Part.spawn(ticket, part)
         return redirect(f"/ticket/{ticket.id}")
     else:
-        return render(request, "hello/ticket.html", { 'form': form, 'ticket': ticket})
+        return render(request, "hello/ticket.html", { 'form': form, 'ticket': ticket })
+
+def note(request, ticket):
+    ticket = Ticket.objects.filter(id=ticket)[0]
+    form = NoteForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        note = form.save(commit=False)
+        note.ticket = ticket
+        note.save()
+        return redirect(f"/ticket/{note.ticket.id}")
+    return render(request, "hello/note.html", { 'form': form, 'ticket': ticket})
 
 def part(request, part):
     part = Part.objects.filter(id=part)[0]

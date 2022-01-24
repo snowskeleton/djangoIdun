@@ -15,6 +15,8 @@ class Ticket(models.Model):
         choices=longLists.devices,
     )
   
+    def notes(self):
+        return Note.objects.filter(ticket=self)
 
     def parts(self):
         return Part.objects.filter(ticket=self)

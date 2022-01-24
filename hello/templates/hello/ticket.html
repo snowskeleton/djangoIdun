@@ -27,9 +27,24 @@ Ticket #{{ ticket.id }}
                 </p>
             </div>
 </div>
-    <form method="POST" class="log-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="select" class="save btn btn-default">Add</button>
-    </form>
+<form method="POST" class="log-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="select" class="save btn btn-default">Add</button>
+</form>
+
+<div class="notesOnTicket">
+    <table class="noteTable">
+        <tbody>
+            {% for note in ticket.notes %}
+                <tr>
+                    <td>
+                        <!-- {{ note.user }} -->
+                        {{ note.body }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

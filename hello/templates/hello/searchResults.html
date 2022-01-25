@@ -10,7 +10,11 @@
                         <td><a href="/ticket/{{ ticket.id }}">{{ ticket.id }}</a></td>
                         <td>{{ ticket.model }}</td>
                         <td>{{ ticket.serial }}</td>
-                        <td>{{ ticket.parts }}</td>
+                        <td>
+                            {% for part in ticket.parts %}
+                                {{ part.name }}
+                            {% endfor %}
+                        </td>
                     </tr>
             {% endfor %}
         {% else %}

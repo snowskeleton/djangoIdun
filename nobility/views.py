@@ -31,7 +31,7 @@ def ticket(request, ticket):
         if request.POST['action'] == 'Change Status':
             pass
         return redirect(f"/ticket/{ticket.id}")
-    return render(request, "hello/ticket.html", {'ticket': ticket })
+    return render(request, "nobility/ticket.html", {'ticket': ticket })
 
 
 @login_required
@@ -45,7 +45,7 @@ def addPart(request, ticket):
                 Part.spawn(ticket, part)
         return redirect(f"/ticket/{ticket.id}")
     else:
-        return render(request, "hello/addPart.html", { 'form': form, 'ticket': ticket})
+        return render(request, "nobility/addPart.html", { 'form': form, 'ticket': ticket})
 
 
 @login_required
@@ -58,7 +58,7 @@ def note(request, ticket):
         note.ticket = ticket
         note.save()
         return redirect(f"/ticket/{note.ticket.id}")
-    return render(request, "hello/note.html", { 'form': form, 'ticket': ticket})
+    return render(request, "nobility/note.html", { 'form': form, 'ticket': ticket})
 
 
 @login_required
@@ -77,7 +77,7 @@ def part(request, part):
             part.delete()
         return redirect(f"/ticket/{part.ticket.id}")
 
-    return render(request, "hello/part.html", {'form': form , 'part': part})
+    return render(request, "nobility/part.html", {'form': form , 'part': part})
 
 @login_required
 def addTicket(request):
@@ -90,7 +90,7 @@ def addTicket(request):
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
     else:
-        return render(request, "hello/addTicket.html", {"form": form})
+        return render(request, "nobility/addTicket.html", {"form": form})
 
 
 class SearchResultsView(ListView):
@@ -116,7 +116,7 @@ def login_view(request):
         else:
             login(request, user)
             return redirect("/")
-    return render(request, "hello/login.html", {"form": form})
+    return render(request, "nobility/login.html", {"form": form})
 
 def logout_view(request):
     logout(request)

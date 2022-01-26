@@ -1,6 +1,6 @@
 from tkinter import Button
 from django import forms
-from hello.models import Note, Ticket
+from .models import Note, Ticket
 
 class TicketCreateForm(forms.ModelForm):
     class Meta:

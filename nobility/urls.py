@@ -1,11 +1,11 @@
 from django.urls import path
-from hello.models import Ticket
-import hello.views as views
+from .models import Ticket
+import views
 
 home_list_view = views.HomeListView.as_view(
     queryset=Ticket.objects.order_by("-creationDate")[:5],
     context_object_name="tickets",
-    template_name="hello/home.html",
+    template_name="nobility/home.html",
 )
 
 urlpatterns = [

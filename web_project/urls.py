@@ -22,7 +22,7 @@ urlpatterns = [
 ]
 
 urlpatterns = [
-    path("", include("hello.urls")),
+    path("", include("nobility.urls")),
     path('admin/', admin.site.urls)
 ]
 urlpatterns += staticfiles_urlpatterns()

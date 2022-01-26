@@ -1,4 +1,4 @@
-from hello.longLists import parts
+from .longLists import parts
 
 # Usage: var = fetchPartsFor('Dell 3100 (Touch, +USB)')
 def fetchPartsFor(model):

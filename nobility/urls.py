@@ -1,6 +1,6 @@
 from django.urls import path
 from .models import Ticket
-import views
+from . import views
 
 home_list_view = views.HomeListView.as_view(
     queryset=Ticket.objects.order_by("-creationDate")[:5],

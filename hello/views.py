@@ -30,7 +30,6 @@ def ticket(request, ticket):
             return redirect(f"/note/{ticket.id}")
         if request.POST['action'] == 'Change Status':
             pass
-        # part.save()
         return redirect(f"/ticket/{ticket.id}")
     return render(request, "hello/ticket.html", {'ticket': ticket })
 

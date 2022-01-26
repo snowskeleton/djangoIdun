@@ -1,5 +1,6 @@
+from datetime import datetime
 from django.test import TestCase
-from hello.models import Ticket
+from models import Ticket
 
 # Create your tests here.
 class TestViews(TestCase):
@@ -14,6 +15,18 @@ class TestViews(TestCase):
 
     def test_makeTicket(self):
         self.assertIsNotNone(Ticket.objects.get(serial="abc 123"))
+        from MOCK_DATA import test_data
+        for thing in test_data:
+            Ticket.objects.create(thing)
+            
+
+        Ticket.objects.create(
+            creationDate=datetime.now(),
+            model="ABc d fg/n",
+            serial="42069",
+            assetTag="000123",
+            customer="Santa"
+        )
 
 if __name__ == '__main__':
     TestCase.main()

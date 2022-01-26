@@ -11,6 +11,8 @@
 <div class="navbar">
     <a href="{% url 'home' %}" class="navbar-brand">Home</a>
     <a href="{% url 'add' %}" class="navbar-brand">New</a>
+    <a href="{% url 'login' %}" class="navbar-brand">Login</a>
+    <a href="{% url 'logout' %}" class="navbar-brand">Logout</a>
     <form action="{% url 'searchResults' %}" class="navbar-brand" method="get">
         <input name="q" type="text" placeholder="Search">
       </form>

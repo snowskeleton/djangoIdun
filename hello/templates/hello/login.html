@@ -1,0 +1,11 @@
+{% extends "hello/layout.html" %}
+{% block title %}
+Login
+{% endblock %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="action" value="Delete">
+</form>
+{% endblock %}

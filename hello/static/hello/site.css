@@ -21,6 +21,11 @@
     margin-left: 30px;
 }
 
+.right {
+    float: right;
+    padding: 8px 5px 8px 5px
+}
+
 .body-content {
     padding: 5px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

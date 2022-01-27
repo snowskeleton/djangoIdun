@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm
-from .models import Ticket, Part
+from .models import Ticket, Part, Note
 
 
 class HomeListView(ListView):
@@ -43,6 +43,7 @@ def addPart(request, ticket):
         for part in ticket.partsPossible():
             if part['name'] == request.POST['parts']:
                 Part.spawn(ticket, part)
+                Note.objects.create(body=f"{part['name']} added.", ticket=ticket, user=request.user)
         return redirect(f"/ticket/{ticket.id}")
     else:
         return render(request, "nobility/addPart.html", { 'form': form, 'ticket': ticket})

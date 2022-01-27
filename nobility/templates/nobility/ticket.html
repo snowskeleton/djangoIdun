@@ -50,8 +50,14 @@ Ticket #{{ ticket.id }}
         <tbody>
             {% for note in ticket.notes %}
                 <tr>
+                    <td class="table-username">
+                        {{ note.user.username }}
+                    </td>
                     <td>
-                        {{ note.user.username }}: {{ note.body }} -- {{ note.date }}
+                        {{ note.body }}
+                    </td>
+                    <td class="table-date">
+                        {{ note.date }}
                     </td>
                 </tr>
             {% endfor %}

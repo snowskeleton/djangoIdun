@@ -6,10 +6,21 @@ Ticket #{{ ticket.id }}
 <div class="wrap">
             <div class="fleft">
                 <p class="deetsHeader">TICKET: {{ ticket.id }}</p>
-                <p class="deetsHeader">MODEL: {{ ticket.model }}</p>
-                <p class="deetsHeader">SERIAL: {{ ticket.serial }}</p>
-                <p class="deetsHeader">ASSET: {{ ticket.assetTag }}</p>
-                <p class="deetsHeader">SCHOOL: {{ ticket.customer }}</p>
+                {% if ticket.model %}
+                    <p class="deetsHeader">MODEL: {{ ticket.model }}</p>
+                {% endif %}
+                {% if ticket.serial %}
+                    <p class="deetsHeader">SERIAL: {{ ticket.serial }}</p>
+                {% endif %}
+                {% if ticket.assetTag %}
+                    <p class="deetsHeader">ASSET: {{ ticket.assetTag }}</p>
+                {% endif %}
+                {% if ticket.customer %}
+                    <p class="deetsHeader">SCHOOL: {{ ticket.customer }}</p>
+                {% endif %}
+                {% if ticket.claim %}
+                    <p class="deetsHeader">CLAIM: {{ ticket.claim }}</p>
+                {% endif %}
                 <p class="deetsHeader">STATUS: {{ ticket.status }}</p>
             </div>
             <div class="fright">

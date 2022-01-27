@@ -51,8 +51,7 @@ Ticket #{{ ticket.id }}
             {% for note in ticket.notes %}
                 <tr>
                     <td>
-                        <!-- {{ note.user }} -->
-                        {{ note.body }}
+                        {{ note.user.username }}: {{ note.body }} -- {{ note.date }}
                     </td>
                 </tr>
             {% endfor %}

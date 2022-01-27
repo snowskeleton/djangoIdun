@@ -55,6 +55,7 @@ def note(request, ticket):
 
     if request.method == 'POST' and form.is_valid():
         note = form.save(commit=False)
+        note.user = request.user
         note.ticket = ticket
         note.save()
         return redirect(f"/ticket/{note.ticket.id}")

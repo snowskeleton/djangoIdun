@@ -10,6 +10,7 @@ class Ticket(models.Model):
     serial = models.CharField(max_length=30, null=True, blank=True)
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
+    claim = models.CharField(max_length=30, null=True, blank=False)
     model = models.CharField(
         max_length=90,
         null=True,
@@ -21,9 +22,14 @@ class Ticket(models.Model):
     def whoamI(self, ticket):
         return Ticket.objects.filter(id=ticket)[0]
 
+    def partsPossible(self):
+        for (key, value) in longLists.parts.items():
+            if key == self.model:
+                return value
+        return longLists.parts.get('Generic') #return generic parts if no model found
 
     def notes(self):
-        return Note.objects.filter(ticket=self)
+        return Note.objects.filter(ticket=self).order_by('-date') #newest note on top
 
     def parts(self):
         return Part.objects.filter(ticket=self)
@@ -33,25 +39,6 @@ class Ticket(models.Model):
         for part in self.parts():
             prettyParts.append(part.name)
         return ', '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
-
-    def partsToAdd(self):
-        for (key, value) in longLists.parts.items():
-            if key == self.model:
-                return str(value)
-        return longLists.parts.get('Generic') #return generic parts if the above didn't match anything
-    
-    def partsPossible(self):
-        arr = []
-        for (key, value) in longLists.parts.items():
-            if key == self.model:
-                arr = value
-        if len(arr) > 0:
-            return arr
-        #else
-        for (key, value) in longLists.parts.items():
-            if key == 'Generic':
-                arr = value
-        return arr
 
     def partsNeeded(self):
         return self.parts().filter(replaced=False)
@@ -69,6 +56,10 @@ class Note(models.Model):
     date = models.DateTimeField("date created", auto_now_add=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    
+    def tableDate(self):
+
+        pass
 
 
 class Part(models.Model):

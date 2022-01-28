@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django import forms
 
 from .forms import NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm
 from .models import Ticket, Part, Note
@@ -43,7 +44,7 @@ def addPart(request, ticket):
         for part in ticket.partsPossible():
             if part['name'] == request.POST['parts']:
                 Part.spawn(ticket, part)
-                Note.objects.create(body=f"{part['name']} added.", ticket=ticket, user=request.user)
+                Note.objects.create(body=f"[{part['name']}] added.", ticket=ticket, user=request.user)
         return redirect(f"/ticket/{ticket.id}")
     else:
         return render(request, "nobility/addPart.html", { 'form': form, 'ticket': ticket})
@@ -77,6 +78,11 @@ def part(request, part):
             part.save()
         if request.POST['action'] == 'Delete':
             part.delete()
+        Note.objects.create(
+        body=f"[{part.name}] {request.POST['action']}{'d' if request.POST['action'] != 'Order' else 'ed'}.",
+        # the above dynamically adds either "d" or "ed" to the 'action', depending on grammar
+        ticket=part.ticket,
+        user=request.user)
         return redirect(f"/ticket/{part.ticket.id}")
 
     return render(request, "nobility/part.html", {'form': form , 'part': part})

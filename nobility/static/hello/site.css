@@ -3,7 +3,7 @@
     font-size: 1em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: white;
-    padding: 8px 5px 8px 5px;
+    padding: 4px 5px 4px 5px;
 }
 
 .navbar a {
@@ -12,7 +12,7 @@
 }
 
 .navbar-brand {
-    font-size: 1.2em;
+    font-size: 2.4em;
     font-weight: 600;
 }
 
@@ -41,7 +41,7 @@ input[name=ticket] {
 }
 .deetsHeader {
     text-align: left;
-    font-size: 0.5em;
+    font-size: 1em;
     font-weight: 250;
 }
 
@@ -72,33 +72,28 @@ input[name=ticket] {
 table {
 
     font-family: arial, sans-serif;
-  
     border-collapse: collapse;
-  
     width: 100%;
     vertical-align: text-top;
-  
+    font-size: 1em;
 }
 
 td, th {
-
   border: 1px solid #dddddd;
-
-  text-align: left;
-
+  text-align: center;
   vertical-align: text-top;
-  padding: 8px;
-
+  padding: 2px;
+  font-size: 2em;
 }
 
 tr:nth-child(even) {
 
-  background-color: #dddddd;
+  background-color: rgba(251, 232, 250, 0.765);
 
 }
 
 .table-username {
-    background-color: rgb(20, 186, 219);
+    background-color: rgb(195, 172, 243);
     vertical-align: text-top;
 }
 

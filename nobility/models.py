@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from . import longLists
-from django.contrib.auth.models import User
 
 
 class Ticket(models.Model):

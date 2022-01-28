@@ -213,12 +213,7 @@ parts = {
         {"name": "DC In-Jack", "sku": "", "mpn": "", "cost": None},
         {"name": "Hinge Set", "sku": "", "mpn": "", "cost": None},
         {"name": "Motherboard, 4GB", "sku": "", "mpn": "", "cost": None},
-        {
-            "name": "Palmrest Assembly w/ Keyboard Only",
-            "sku": "",
-            "mpn": "",
-            "cost": None,
-        },
+        { "name": "Palmrest Assembly w/ Keyboard Only", "sku": "", "mpn": "", "cost": None, },
         {"name": "Speaker Set", "sku": "", "mpn": "", "cost": None},
         {"name": "Touchpad", "sku": "", "mpn": "", "cost": None},
         {"name": "Wifi Card", "sku": "", "mpn": "", "cost": None},

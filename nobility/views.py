@@ -68,18 +68,21 @@ def note(request, ticket):
 def part(request, part):
     part = Part.objects.filter(id=part)[0]
     form = ButtonButton(request.POST or None)
-
+    posOrNeg = True
     if request.method == 'POST' and form.is_valid():
         if request.POST['action'] == 'Order':
             part.ordered ^= True
+            posOrNeg = part.ordered
             part.save()
         if request.POST['action'] == 'Replace':
             part.replaced ^= True
+            posOrNeg = part.replaced
             part.save()
         if request.POST['action'] == 'Delete':
             part.delete()
+            posOrNeg = False
         Note.objects.create(
-        body=f"[{part.name}] {request.POST['action']}{'d' if request.POST['action'] != 'Order' else 'ed'}.",
+        body=f"{'' if posOrNeg else '— '} {request.POST['action']}{'d' if request.POST['action'] != 'Order' else 'ed'} [{part.name}].",
         # the above dynamically adds either "d" or "ed" to the 'action', depending on grammar
         ticket=part.ticket,
         user=request.user)

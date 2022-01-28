@@ -36,6 +36,10 @@ Ticket #{{ ticket.id }}
                         <a href="/part/{{ part.id }}">{{ part.name }}</a>;
                     {% endfor %}
                 </p>
+                <p class="deetsHeader">COST</p>
+                <p class="deetsHeader">
+                    {{ ticket.cost }}
+                </p>
             </div>
 </div>
 <form method="POST">

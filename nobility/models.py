@@ -52,6 +52,11 @@ class Ticket(models.Model):
     def partsUsed(self):
         return self.parts().filter(replaced=True)
 
+    def cost(self):
+        cost = 0.0
+        for part in self.parts():
+            cost += part.cost
+        return "${:,.2f}".format(cost)
 
 class Device(models.Model):
     model = models.CharField(max_length=127)

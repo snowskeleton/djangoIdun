@@ -79,13 +79,16 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
-  vertical-align: text-top;
-  padding: 2px;
-  font-size: 2em;
+    border: 1px solid #dddddd;
+    vertical-align: text-top;
+    padding: 2px;
 }
 
+th {
+    font-size: 1.5em;
+}
 td {
+    font-size: 1.5em;
     text-align: left;
 }
 

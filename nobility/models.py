@@ -24,6 +24,9 @@ class Ticket(models.Model):
     def paddedID(self):
         f'{self.id:05}'
         return f'{self.id:05}'
+    
+    def hasNotes(self):
+        return len(self.notes())
 
     def partsPossible(self):
         for (key, value) in longLists.parts.items():

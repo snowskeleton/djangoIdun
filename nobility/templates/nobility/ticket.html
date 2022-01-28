@@ -48,9 +48,11 @@ Ticket #{{ ticket.id }}
 <div>
     <table>
         <tbody>
-            <th>USER</th>
-            <th>NOTE</th>
-            <th>h:m|dd.mm.yy</th>
+            {% if ticket.hasNotes %}
+                <th>USER</th>
+                <th>NOTE</th>
+                <th>h:m|dd.mm.yy</th>
+            {% endif %}
             {% for note in ticket.notes %}
                 <tr>
                     <td class="table-username">

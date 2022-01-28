@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 
-from .forms import NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm
+from .forms import NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm, TicketEditForm
 from .models import Ticket, Part, Note
 
 
@@ -103,6 +103,19 @@ def addTicket(request):
     else:
         return render(request, "nobility/addTicket.html", {"form": form})
 
+@login_required
+def editTicket(request, ticket):
+    ticket = Ticket.objects.filter(id=ticket)[0]
+    form = TicketEditForm(ticket=ticket)
+    if request.method == "POST":
+        ticket.serial = request.POST['serial']
+        ticket.model = request.POST['model']
+        ticket.assetTag = request.POST['assetTag']
+        ticket.customer = request.POST['customer']
+        ticket.claim = request.POST['claim']
+        ticket.save()
+        return redirect(f"/ticket/{ticket.id}")
+    return render(request, "nobility/editTicket.html", {"form": form, "ticket": ticket})
 
 class SearchResultsView(ListView):
     model = Ticket

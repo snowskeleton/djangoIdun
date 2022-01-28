@@ -1,4 +1,3 @@
-from tkinter import Button
 from django import forms
 from .models import Note, Ticket
 
@@ -6,6 +5,18 @@ class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ('serial', 'model', 'assetTag', 'customer',)
+
+class TicketEditForm(forms.ModelForm):
+    def __init__(self, ticket, *args, **kwargs):
+        super(TicketEditForm, self).__init__(*args, **kwargs)        
+        self.fields['serial'].initial = ticket.serial
+        self.fields['model'].initial = ticket.model
+        self.fields['assetTag'].initial = ticket.assetTag
+        self.fields['customer'].initial = ticket.customer
+        self.fields['claim'].initial = ticket.claim
+    class Meta:
+        model = Ticket
+        fields = ('serial', 'model', 'assetTag', 'customer', 'claim',)
 
 class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelForm
 

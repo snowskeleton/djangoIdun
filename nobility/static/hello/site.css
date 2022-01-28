@@ -80,10 +80,13 @@ table {
 
 td, th {
   border: 1px solid #dddddd;
-  text-align: center;
   vertical-align: text-top;
   padding: 2px;
   font-size: 2em;
+}
+
+td {
+    text-align: left;
 }
 
 tr:nth-child(even) {

@@ -100,12 +100,6 @@ parts = {
             "cost": 109.99,
         },
         {
-            "name": "Dell 11 3100 Touch/Non-Touch Chromebook Battery (Short cable version)",
-            "sku": "BAT-SNG-8886-1",
-            "mpn": "JPFMR/07T0D3",
-            "cost": 63.99,
-        },
-        {
             "name": "Motherboard, 4GB",
             "sku": "MOT-SNG-9454-2",
             "mpn": "0W1C7C",

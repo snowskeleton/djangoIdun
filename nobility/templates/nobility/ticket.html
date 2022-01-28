@@ -53,9 +53,9 @@ Ticket #{{ ticket.id }}
     <table>
         <tbody>
             {% if ticket.hasNotes %}
-                <th>USER</th>
+                <th class="table-username">USER</th>
                 <th>NOTE</th>
-                <th>h:m|dd.mm.yy</th>
+                <th class="table-date">h:m|dd.mm.yy</th>
             {% endif %}
             {% for note in ticket.notes %}
                 <tr>

@@ -101,8 +101,13 @@ tr:nth-child(even) {
 .table-username {
     background-color: rgb(195, 172, 243);
     vertical-align: text-top;
+    width: 20px;
+    overflow: hidden;
 }
 
 .table-date {
     text-align: right;
+    width: 60px;
+    font-size: smaller;
+    overflow: hidden;
 }

@@ -68,10 +68,6 @@ class Note(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     
-    def tableDate(self):
-
-        pass
-
 
 class Part(models.Model):
     name = models.CharField(max_length=127)

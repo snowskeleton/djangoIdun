@@ -18,7 +18,7 @@
             <tbody>
             {% for ticket in tickets %}
                 <tr>
-                    <td><a href="/ticket/{{ ticket.id }}">{{ ticket.id }}</a></td>
+                    <td><a href="/ticket/{{ ticket.id }}">{{ ticket.paddedID }}</a></td>
                     <td>{{ ticket.model }}</td>
                     <td>{{ ticket.serial }}</td>
                     <td>{{ ticket.prettyParts }}</td>

@@ -21,6 +21,10 @@ class Ticket(models.Model):
     def whoamI(self, ticket):
         return Ticket.objects.filter(id=ticket)[0]
 
+    def paddedID(self):
+        f'{self.id:05}'
+        return f'{self.id:05}'
+
     def partsPossible(self):
         for (key, value) in longLists.parts.items():
             if key == self.model:

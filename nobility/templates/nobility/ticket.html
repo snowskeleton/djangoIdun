@@ -21,7 +21,7 @@ Ticket #{{ ticket.id }}
                 {% if ticket.claim %}
                     <p class="deetsHeader">CLAIM: {{ ticket.claim }}</p>
                 {% endif %}
-                <p class="deetsHeader">STATUS: {{ ticket.status }}</p>
+                <p class="deetsHeader"><a href="/changeStateOf/{{ ticket.id }}">STATUS: {{ ticket.state }}</a></p>
             </div>
             <div class="fright">
                 <p class="deetsHeader">PARTS</p>

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 
-from .forms import NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm, TicketEditForm
+from .forms import ChangeStateOfForm, NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm, TicketEditForm
 from .models import Ticket, Part, Note
 
 
@@ -21,7 +21,7 @@ class HomeListView(ListView):
 
 @login_required
 def ticket(request, ticket):
-    ticket = Ticket.whoamI(ticket)
+    ticket = Ticket.fromID(ticket)
     form = ButtonButton(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -36,7 +36,7 @@ def ticket(request, ticket):
 
 @login_required
 def addPart(request, ticket):
-    ticket = Ticket.whoamI(ticket)
+    ticket = Ticket.fromID(ticket)
     form = PartsForm(ticket=ticket)
 
     if request.method == "POST":
@@ -51,7 +51,7 @@ def addPart(request, ticket):
 
 @login_required
 def note(request, ticket):
-    ticket = Ticket.whoamI(ticket)
+    ticket = Ticket.fromID(ticket)
     form = NoteForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -93,10 +93,10 @@ def part(request, part):
 def addTicket(request):
     form = TicketCreateForm(request.POST or None)
 
-    print(form)
     if request.method == "POST" and form.is_valid():
         ticket = form.save(commit=False)
         ticket.creationDate = datetime.now()
+        ticket.state = "NEW"
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
     else:
@@ -104,7 +104,7 @@ def addTicket(request):
 
 @login_required
 def editTicket(request, ticket):
-    ticket = Ticket.objects.filter(id=ticket)[0]
+    ticket = Ticket.fromID(ticket)
     form = TicketEditForm(ticket=ticket)
     if request.method == "POST":
         ticket.serial = request.POST['serial']
@@ -112,9 +112,25 @@ def editTicket(request, ticket):
         ticket.assetTag = request.POST['assetTag']
         ticket.customer = request.POST['customer']
         ticket.claim = request.POST['claim']
+        ticket.state = request.POST['state']
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
     return render(request, "nobility/editTicket.html", {"form": form, "ticket": ticket})
+
+@login_required
+def changeStateOf(request, ticket):
+    ticket = Ticket.fromID(ticket)
+    form = ChangeStateOfForm(ticket=ticket)
+
+    if request.method == "POST":
+        ticket.state = request.POST['state']
+        ticket.save()
+        Note.objects.create(
+        body=f"{request.user} changed status to [{request.POST['state']}].",
+        ticket=ticket,
+        user=request.user)
+        return redirect(f"/ticket/{ticket.id}")
+    return render(request, "nobility/changeStateOf.html", {"form": form, "ticket": ticket})
 
 class SearchResultsView(ListView):
     model = Ticket

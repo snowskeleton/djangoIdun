@@ -12,6 +12,7 @@ urlpatterns = [
     path("", home_list_view, name="home"),
     path("ticket/<ticket>", views.ticket, name="ticket"),
     path("editTicket/<ticket>", views.editTicket, name="editTicket"),
+    path("changeStateOf/<ticket>", views.changeStateOf, name="changeState"),
     path("login/", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("add/", views.addTicket, name="add"),

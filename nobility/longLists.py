@@ -13,6 +13,13 @@ devices = [
     ("Samsung Chromebook 4 (xe310xba)", "Samsung Chromebook 4 (xe310xba)"),
 ]
 
+states = [
+    ("NEW", "New"),
+    ("ORDERED", "Ordered"),
+    ("REPAIRED", "Repaired"),
+    ("FINISHED", "Finished"),
+    ]
+
 parts = {
     "Dell 3100 (Touch, +USB)": [
         {

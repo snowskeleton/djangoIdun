@@ -14,9 +14,18 @@ class TicketEditForm(forms.ModelForm):
         self.fields['assetTag'].initial = ticket.assetTag
         self.fields['customer'].initial = ticket.customer
         self.fields['claim'].initial = ticket.claim
+        self.fields['state'].initial = ticket.state
     class Meta:
         model = Ticket
-        fields = ('serial', 'model', 'assetTag', 'customer', 'claim',)
+        fields = ('serial', 'model', 'assetTag', 'customer', 'claim', 'state',)
+
+class ChangeStateOfForm(forms.ModelForm):
+    def __init__(self, ticket, *args, **kwargs):
+        super(ChangeStateOfForm, self).__init__(*args, **kwargs)        
+        self.fields['state'].initial = ticket.state
+    class Meta:
+        model = Ticket
+        fields = ('state',)
 
 class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelForm
 

@@ -9,7 +9,13 @@ class Ticket(models.Model):
     serial = models.CharField(max_length=30, null=True, blank=True)
     assetTag = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
-    claim = models.CharField(max_length=30, null=True, blank=False)
+    claim = models.CharField(max_length=30, null=True, blank=True)
+    state = models.CharField(
+        max_length=90,
+        null=True,
+        blank=True,
+        choices=longLists.states
+    )
     model = models.CharField(
         max_length=90,
         null=True,
@@ -18,7 +24,8 @@ class Ticket(models.Model):
     )
   
     @classmethod
-    def whoamI(self, ticket):
+    def fromID(self, ticket):
+    # def whoamI(self, ticket):
         return Ticket.objects.filter(id=ticket)[0]
 
     def paddedID(self):

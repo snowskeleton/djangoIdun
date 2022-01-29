@@ -29,9 +29,8 @@ def ticket(request, ticket):
             return redirect(f"/addPart/{ticket.id}")
         if request.POST['action'] == 'Add Note':
             return redirect(f"/note/{ticket.id}")
-        if request.POST['action'] == 'Change Status':
-            pass
-        return redirect(f"/ticket/{ticket.id}")
+        if request.POST['action'] == 'Edit':
+            return redirect(f"/editTicket/{ticket.id}")
     return render(request, "nobility/ticket.html", {'ticket': ticket })
 
 

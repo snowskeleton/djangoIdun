@@ -111,3 +111,10 @@ tr:nth-child(even) {
     font-size: smaller;
     overflow: hidden;
 }
+
+.button {
+    /* width: 160px;
+    height: 40px; */
+    /* margin: 0 auto; */
+    display: inline;
+}

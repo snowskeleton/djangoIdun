@@ -1,0 +1,22 @@
+{% block content %}
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Model</th>
+            <th>Serial</th>
+            <th>Parts</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ticket in tickets %}
+            <tr>
+                <td><a href="/ticket/{{ ticket.id }}">{{ ticket.paddedID }}</a></td>
+                <td>{{ ticket.model }}</td>
+                <td>{{ ticket.serial }}</td>
+                <td>{{ ticket.prettyParts }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -11,12 +11,14 @@
 <div class="navbar">
     <a href="{% url 'home' %}" class="navbar-brand">Home</a>
     <a href="{% url 'add' %}" class="navbar-brand">New</a>
-    <!-- <a href="{% url 'login' %}" class="navbar-brand right">Login </a> -->
     <a href="{% url 'logout' %}"> <img alt="account" class="navbar-brand right" width=40 height=40 src="{% static 'hello/media/account.png' %}"> </a>
-    <!-- <a href="{% url 'logout' %}" class="navbar-brand right">Logout</a> -->
     <form action="{% url 'searchResults' %}" method="get">
         <input name="q" type="text" placeholder="Search">
-      </form>
+        New: <input name="state" value="New" type="checkbox">
+        Ordered: <input name="state" value="Ordered" type="checkbox">
+        Repaired: <input name="state" value="Reparied" type="checkbox">
+        Finished: <input name="state" value="Finished" type="checkbox">
+    </form>
 </div>
 
 <div class="body-content">

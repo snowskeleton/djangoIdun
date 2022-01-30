@@ -1,12 +1,13 @@
+from typing import final
+from django.http import QueryDict
 from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django import forms
 
-from .forms import ChangeStateOfForm, NoteForm, TicketCreateForm, PartsForm, ButtonButton, LoginForm, TicketEditForm
+from .forms import *
 from .models import Ticket, Part, Note
 
 
@@ -96,7 +97,7 @@ def addTicket(request):
     if request.method == "POST" and form.is_valid():
         ticket = form.save(commit=False)
         ticket.creationDate = datetime.now()
-        ticket.state = "NEW"
+        ticket.state = "New"
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
     else:
@@ -136,13 +137,21 @@ class SearchResultsView(ListView):
     model = Ticket
     template_name = 'searchResults.html'
 
-    @login_required
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Ticket.objects.filter(
-           Q(id__icontains=query)
-        )
-        return object_list
+           (Q(id__icontains=query ) |
+            Q(serial__icontains=query) |
+            Q(model__icontains=query) |
+            Q(claim__icontains=query) |
+            Q(customer__icontains=query))
+            )
+        otherList = []
+        for ob in object_list:
+            if ob.state in self.request.GET.getlist('state'):
+                otherList.append(object_list.get(id=ob.id))
+        print(otherList)
+        return otherList
 
 def login_view(request):
     form = LoginForm(request.POST or None)

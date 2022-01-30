@@ -12,7 +12,6 @@
         <tbody>
         {% for ticket in tickets %}
             <tr>
-                <!-- <td class="table-id"><input class="btn" type="submit" name="action" value="{{ ticket.paddedID }}"></td> -->
                 <td class="table-id"><a href="/ticket/{{ ticket.id }}"><input class="btn" type="submit" name="action" value="{{ ticket.paddedID }}"></a></td>
                 <td class="table-id">{{ ticket.state }}</td>
                 <td>{{ ticket.model }}</td>

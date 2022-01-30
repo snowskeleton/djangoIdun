@@ -1,4 +1,3 @@
-from typing import final
 from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView
@@ -31,6 +30,7 @@ def ticket(request, ticket):
             return redirect(f"/note/{ticket.id}")
         if request.POST['action'] == 'Edit':
             return redirect(f"/editTicket/{ticket.id}")
+
     return render(request, "nobility/ticket.html", {'ticket': ticket })
 
 
@@ -43,10 +43,14 @@ def addPart(request, ticket):
         for part in ticket.partsPossible():
             if part['name'] == request.POST['parts']:
                 Part.spawn(ticket, part)
-                Note.objects.create(body=f"[{part['name']}] added.", ticket=ticket, user=request.user)
+                Note.objects.create(
+                    body=f"[{part['name']}] added.",
+                    ticket=ticket,
+                    user=request.user
+                    )
         return redirect(f"/ticket/{ticket.id}")
-    else:
-        return render(request, "nobility/addPart.html", { 'form': form, 'ticket': ticket})
+
+    return render(request, "nobility/addPart.html", { 'form': form, 'ticket': ticket})
 
 
 @login_required
@@ -60,6 +64,7 @@ def note(request, ticket):
         note.ticket = ticket
         note.save()
         return redirect(f"/ticket/{note.ticket.id}")
+
     return render(request, "nobility/note.html", { 'form': form, 'ticket': ticket})
 
 
@@ -68,26 +73,34 @@ def part(request, part):
     part = Part.objects.filter(id=part)[0]
     form = ButtonButton(request.POST or None)
     posOrNeg = True
+
     if request.method == 'POST' and form.is_valid():
         if request.POST['action'] == 'Order':
             part.ordered ^= True
             posOrNeg = part.ordered
             part.save()
+
         if request.POST['action'] == 'Replace':
             part.replaced ^= True
             posOrNeg = part.replaced
             part.save()
+
         if request.POST['action'] == 'Delete':
             part.delete()
             posOrNeg = False
+
         Note.objects.create(
-        body=f"{'' if posOrNeg else '— '} {request.POST['action']}{'d' if request.POST['action'] != 'Order' else 'ed'} [{part.name}].",
+        body=f"{'' if posOrNeg else '— '}" +
+        f"{request.POST['action']}" +
+        f"{'d' if request.POST['action'] != 'Order' else 'ed'} " +
+        "" [{part.name}].",
         # the above dynamically adds either "d" or "ed" to the 'action', depending on grammar
         ticket=part.ticket,
         user=request.user)
         return redirect(f"/ticket/{part.ticket.id}")
 
     return render(request, "nobility/part.html", {'form': form , 'part': part})
+
 
 @login_required
 def addTicket(request):
@@ -99,22 +112,26 @@ def addTicket(request):
         ticket.state = "New"
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
-    else:
-        return render(request, "nobility/addTicket.html", {"form": form})
+
+    return render(request, "nobility/addTicket.html", {"form": form})
+
 
 @login_required
 def editTicket(request, ticket):
     ticket = Ticket.fromID(ticket)
     form = TicketEditForm(ticket=ticket)
+
     if request.method == "POST":
-        ticket.serial = request.POST['serial']
-        ticket.model = request.POST['model']
-        ticket.assetTag = request.POST['assetTag']
-        ticket.customer = request.POST['customer']
-        ticket.claim = request.POST['claim']
-        ticket.state = request.POST['state']
+        post = request.POST
+        ticket.serial = post['serial']
+        ticket.model = post['model']
+        ticket.assetTag = post['assetTag']
+        ticket.customer = post['customer']
+        ticket.claim = post['claim']
+        ticket.state = post['state']
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
+
     return render(request, "nobility/editTicket.html", {"form": form, "ticket": ticket})
 
 @login_required
@@ -128,8 +145,10 @@ def changeStateOf(request, ticket):
         Note.objects.create(
         body=f"{request.user} changed status to [{request.POST['state']}].",
         ticket=ticket,
-        user=request.user)
+        user=request.user
+        )
         return redirect(f"/ticket/{ticket.id}")
+
     return render(request, "nobility/changeStateOf.html", {"form": form, "ticket": ticket})
 
 class SearchResultsView(ListView):
@@ -145,15 +164,17 @@ class SearchResultsView(ListView):
             Q(claim__icontains=query) |
             Q(customer__icontains=query))
             )
+
         otherList = []
         for ob in object_list:
             if ob.state in self.request.GET.getlist('state'):
                 otherList.append(object_list.get(id=ob.id))
-        print(otherList)
+
         return otherList
 
 def login_view(request):
     form = LoginForm(request.POST or None)
+
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -163,6 +184,7 @@ def login_view(request):
         else:
             login(request, user)
             return redirect("/")
+
     return render(request, "nobility/login.html", {"form": form})
 
 def logout_view(request):

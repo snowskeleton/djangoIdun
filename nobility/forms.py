@@ -1,10 +1,12 @@
 from django import forms
 from .models import Note, Ticket
+from django.contrib.auth import get_user_model
 
 class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ('serial', 'model', 'assetTag', 'customer',)
+
 
 class TicketEditForm(forms.ModelForm):
     def __init__(self, ticket, *args, **kwargs):
@@ -19,6 +21,7 @@ class TicketEditForm(forms.ModelForm):
         model = Ticket
         fields = ('serial', 'model', 'assetTag', 'customer', 'claim', 'state',)
 
+
 class ChangeStateOfForm(forms.ModelForm):
     def __init__(self, ticket, *args, **kwargs):
         super(ChangeStateOfForm, self).__init__(*args, **kwargs)        
@@ -27,8 +30,8 @@ class ChangeStateOfForm(forms.ModelForm):
         model = Ticket
         fields = ('state',)
 
-class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelForm
 
+class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelForm
     def __init__(self, ticket, *args, **kwargs):
         super(PartsForm, self).__init__(*args, **kwargs)        
         parts = []
@@ -37,6 +40,7 @@ class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelFor
         self.fields['parts'] = forms.ChoiceField(choices=parts)
     class Meta:
         fields = ('parts',)
+
 
 class SearchForm(forms.Form):
     q = forms.CharField(label='Search', max_length=127)
@@ -52,17 +56,11 @@ class NoteForm(forms.ModelForm):
         fields = ('body',)
 
 
-from django.contrib.auth import get_user_model
-
 User = get_user_model()
 
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
-
-    # def clean(self):
-    #     username = self.cleaned_data.get("username")
-    #     password = self.cleaned_data.get('password')
 
     def clean_username(self):
         username = self.cleaned_data.get("username")

@@ -4,6 +4,9 @@ from . import longLists
 
 
 class Ticket(models.Model):
+    @classmethod
+    def fromID(self, ticket):
+        return Ticket.objects.get(id=ticket)
 
     creationDate = models.DateTimeField("date logged", auto_now_add=True)
     serial = models.CharField(max_length=30, null=True, blank=True)
@@ -23,11 +26,6 @@ class Ticket(models.Model):
         choices=longLists.devices,
     )
   
-    @classmethod
-    def fromID(self, ticket):
-    # def whoamI(self, ticket):
-        return Ticket.objects.get(id=ticket)
-
     def paddedID(self):
         f'{self.id:05}'
         return f'{self.id:05}'
@@ -65,6 +63,7 @@ class Ticket(models.Model):
             cost += part.cost
         return "${:,.2f}".format(cost)
 
+
 class Device(models.Model):
     model = models.CharField(max_length=127)
 
@@ -77,6 +76,18 @@ class Note(models.Model):
     
 
 class Part(models.Model):
+    @classmethod
+    def spawn(self, ticket, part):
+        return Part(
+        cost = part["cost"] if part["cost"] else 0,
+        name = part["name"],
+        mpn = part["mpn"] if part["mpn"] else None,
+        sku = part["sku"] if part["sku"] else None,
+        ticket = ticket,
+        ordered = False,
+        replaced = False,
+        ).save()
+
     name = models.CharField(max_length=127)
     cost = models.FloatField(max_length=12)
     ordered = models.BooleanField(default=False)
@@ -84,17 +95,6 @@ class Part(models.Model):
     mpn = models.CharField(max_length=24)
     sku = models.CharField(max_length=24)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+
     def needed(self):
         return True if self.replaced == False else False
-
-    @classmethod
-    def spawn(self, ticket, part):
-        return Part(
-        cost = part["cost"] if part["cost"] else 0,
-        name = part["name"],
-        mpn = part["mpn"] if part["mpn"] else "--blank--",
-        sku = part["sku"] if part["sku"] else "--blank--",
-        ticket = ticket,
-        ordered = False,
-        replaced = False,
-        ).save()

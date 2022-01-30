@@ -3,7 +3,7 @@ from .models import Ticket
 from . import views
 
 home_list_view = views.HomeListView.as_view(
-    queryset=Ticket.objects.order_by("-creationDate")[:5],
+    queryset=Ticket.objects.order_by("-creationDate")[:10],
     context_object_name="tickets",
     template_name="nobility/home.html",
 )

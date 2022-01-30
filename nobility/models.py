@@ -26,7 +26,7 @@ class Ticket(models.Model):
     @classmethod
     def fromID(self, ticket):
     # def whoamI(self, ticket):
-        return Ticket.objects.filter(id=ticket)[0]
+        return Ticket.objects.get(id=ticket)
 
     def paddedID(self):
         f'{self.id:05}'

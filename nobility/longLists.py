@@ -14,10 +14,10 @@ devices = [
 ]
 
 states = [
-    ("NEW", "New"),
-    ("ORDERED", "Ordered"),
-    ("REPAIRED", "Repaired"),
-    ("FINISHED", "Finished"),
+    ("New", "New"),
+    ("Ordered", "Ordered"),
+    ("Repaired", "Repaired"),
+    ("Finished", "Finished"),
     ]
 
 parts = {

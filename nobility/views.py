@@ -1,5 +1,4 @@
 from typing import final
-from django.http import QueryDict
 from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView

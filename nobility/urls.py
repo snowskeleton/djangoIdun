@@ -19,5 +19,6 @@ urlpatterns = [
     path("part/<part>", views.part, name="part"),
     path("addPart/<ticket>", views.addPart, name="addPart"),
     path("note/<ticket>", views.note, name="note"),
+    path("download/", views.download_file, name="download"),
     path("searchResults/", views.SearchResultsView.as_view(), name="searchResults"),
 ]

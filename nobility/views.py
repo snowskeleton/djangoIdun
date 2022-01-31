@@ -4,6 +4,9 @@ from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+import mimetypes
+import os
+from django.http.response import HttpResponse
 
 from .forms import *
 from .models import Ticket, Part, Note
@@ -32,6 +35,10 @@ def ticket(request, ticket):
             return redirect(f"/note/{ticket.id}")
         if request.POST['action'] == 'Edit':
             return redirect(f"/editTicket/{ticket.id}")
+        if request.POST['action'] == 'test':
+            # for ticket in Ticket.objects.all():
+            #     ticket.csvExport()
+            return ticket.csvExport()
 
     return render(request, "nobility/ticket.html", {'ticket': ticket })
 
@@ -191,6 +198,25 @@ class SearchResultsView(ListView):
 
         return otherList
 
+#I don't know how this works
+def download_file(request):
+    # Define Django project base directory
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Define text file name
+    Ticket.csvExport()
+    filename = 'export.csv'
+    # Define the full file path
+    filepath = BASE_DIR + '/downloads/export/' + filename
+    # Open the file for reading content
+    with open(filepath, 'r') as path:
+        # Set the mime type
+        mime_type, _ = mimetypes.guess_type(filepath)
+        # Set the return value of the HttpResponse
+        response = HttpResponse(path, content_type=mime_type)
+        # Set the HTTP header for sending to browser
+        response['Content-Disposition'] = "attachment; filename=%s" % filename
+        # Return the response value
+        return response
 
 # GET: accepts nothing. returns page with LoginForm()
 #POST: accepts nothing and uses LoginForm() to authenticate the user. redirects to home page ##TODO: redirect to 'next' page

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.http import HttpResponse
 from . import longLists
 
 
@@ -69,6 +70,38 @@ class Ticket(models.Model):
             prettyParts.append(part.name)
         return ', '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
+    @classmethod
+    def csvExport(self):
+        import csv
+        header = [
+            'id',
+            'model',
+            'serial',
+            'asset',
+            'school',
+            'status',
+            'cost',
+            'date',
+            'parts',
+            ]
+        with open('./downloads/export/export.csv', 'w+') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+        for ticket in Ticket.objects.all():
+            data = [
+                f'{ticket.id}',
+                f'{ticket.model}',
+                f'{ticket.serial}',
+                f'{ticket.assetTag}',
+                f'{ticket.customer}',
+                f'{ticket.state}',
+                f'{ticket.cost()}',
+                f'{ticket.creationDate:%Y-%m-%d %H:%M}',
+                f'{ticket.prettyParts()}',
+                ]
+            with open('./downloads/export/export.csv', 'a+') as f:
+                writer = csv.writer(f)
+                writer.writerow(data)
 
 class Device(models.Model):
     model = models.CharField(max_length=127)

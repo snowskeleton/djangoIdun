@@ -70,8 +70,6 @@ class Ticket(models.Model):
         return ', '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
 
-
-
 class Device(models.Model):
     model = models.CharField(max_length=127)
 

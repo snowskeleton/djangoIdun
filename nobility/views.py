@@ -35,10 +35,6 @@ def ticket(request, ticket):
             return redirect(f"/note/{ticket.id}")
         if request.POST['action'] == 'Edit':
             return redirect(f"/editTicket/{ticket.id}")
-        if request.POST['action'] == 'test':
-            # for ticket in Ticket.objects.all():
-            #     ticket.csvExport()
-            return ticket.csvExport()
 
     return render(request, "nobility/ticket.html", {'ticket': ticket })
 

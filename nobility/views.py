@@ -198,7 +198,7 @@ class SearchResultsView(ListView):
 
         return otherList
 
-#I don't know how this works
+# I don't know how this works
 def download_file(request):
     # Define Django project base directory
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -219,7 +219,7 @@ def download_file(request):
         return response
 
 # GET: accepts nothing. returns page with LoginForm()
-#POST: accepts nothing and uses LoginForm() to authenticate the user. redirects to home page ##TODO: redirect to 'next' page
+# POST: accepts nothing and uses LoginForm() to authenticate the user. redirects to home page ##TODO: redirect to 'next' page
 def login_view(request):
     form = LoginForm(request.POST or None)
 

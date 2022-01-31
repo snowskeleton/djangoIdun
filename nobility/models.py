@@ -4,6 +4,7 @@ from . import longLists
 
 
 class Ticket(models.Model):
+    # acceptes ticket number (ticket.id). returns Ticket() object
     @classmethod
     def fromID(self, ticket):
         return Ticket.objects.get(id=ticket)
@@ -25,43 +26,50 @@ class Ticket(models.Model):
         blank=True,
         choices=longLists.devices,
     )
-  
-    def paddedID(self):
-        f'{self.id:05}'
-        return f'{self.id:05}'
-    
-    def hasNotes(self):
-        return len(self.notes())
-
-    def partsPossible(self):
-        for (key, value) in longLists.parts.items():
-            if key == self.model:
-                return value
-        return longLists.parts.get('Generic') #return generic parts if no model found
 
     def notes(self):
         return Note.objects.filter(ticket=self).order_by('-date') #newest note on top
 
     def parts(self):
         return Part.objects.filter(ticket=self)
+  
+    def partsNeeded(self):
+        return self.parts().filter(replaced=False)
 
+    def partsUsed(self):
+        return self.parts().filter(replaced=True)
+    # attr. sum of all parts costs
+    def cost(self):
+        cost = 0.0
+        for part in self.parts():
+            cost += part.cost
+        return "${:,.2f}".format(cost)
+
+    # accepts nothing. returns ticket number (ticket.id) with zero padding (for UI purposes)
+    def paddedID(self):
+        f'{self.id:05}'
+        return f'{self.id:05}'
+    
+    # accepts nothing. returns nubmer of Notes() associated with ticket (self) [used as a BOOL in HTML template]
+    def hasNotes(self):
+        return len(self.notes())
+
+    # accepts nothing. returns list() of parts as dictionaries with 'parts == self.model'.
+    ## returns generic list if no entry found
+    def partsPossible(self):
+        for (key, value) in longLists.parts.items():
+            if key == self.model:
+                return value
+        return longLists.parts.get('Generic') #return generic parts if no model found
+
+    # accepts nothing. returns string of all Parts() with 'ticket == self.id' (for UI purposes)
     def prettyParts(self):
         prettyParts = []
         for part in self.parts():
             prettyParts.append(part.name)
         return ', '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
-    def partsNeeded(self):
-        return self.parts().filter(replaced=False)
 
-    def partsUsed(self):
-        return self.parts().filter(replaced=True)
-
-    def cost(self):
-        cost = 0.0
-        for part in self.parts():
-            cost += part.cost
-        return "${:,.2f}".format(cost)
 
 
 class Device(models.Model):
@@ -76,6 +84,8 @@ class Note(models.Model):
     
 
 class Part(models.Model):
+    # accepts ticket() and part{} (part as dictionary; see longLists.py for examples).
+    ## returns Part() with values from part{}
     @classmethod
     def spawn(self, ticket, part):
         return Part(
@@ -89,11 +99,11 @@ class Part(models.Model):
         ).save()
 
     name = models.CharField(max_length=127)
-    cost = models.FloatField(max_length=12)
+    cost = models.FloatField(max_length=12, null=True)
     ordered = models.BooleanField(default=False)
     replaced = models.BooleanField(default=False)
-    mpn = models.CharField(max_length=24)
-    sku = models.CharField(max_length=24)
+    mpn = models.CharField(max_length=24, null=True)
+    sku = models.CharField(max_length=24, null=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
 
     def needed(self):

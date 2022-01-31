@@ -18,6 +18,8 @@ class HomeListView(ListView):
         return context
 
 
+# GET: accepts ticket number (ticket.id). returns page with ticket details
+# POST: accepts ticket number and uses request.POST['action'] item. returns page redirect to indicated 'action'
 @login_required
 def ticket(request, ticket):
     ticket = Ticket.fromID(ticket)
@@ -34,6 +36,9 @@ def ticket(request, ticket):
     return render(request, "nobility/ticket.html", {'ticket': ticket })
 
 
+# GET: accepts ticket number (ticket.id). returns part addition page
+# POST: accepts ticket number and uses request.POST['parts'] item. adds part to database, saves note to ticket,
+## and redirects to 'ticket()'
 @login_required
 def addPart(request, ticket):
     ticket = Ticket.fromID(ticket)
@@ -53,6 +58,8 @@ def addPart(request, ticket):
     return render(request, "nobility/addPart.html", { 'form': form, 'ticket': ticket})
 
 
+# GET: accepts ticket number (ticket.id). returns note creation page
+# POST: accepts ticket number and uses NoteForm() for ticket body. redirects ticket page
 @login_required
 def note(request, ticket):
     ticket = Ticket.fromID(ticket)
@@ -68,9 +75,12 @@ def note(request, ticket):
     return render(request, "nobility/note.html", { 'form': form, 'ticket': ticket})
 
 
+# GET: accepts part number (part.id). returns parts editing page
+# POST: accepts part number and uses request.POST['action'] item. performs indicated action,
+## adds note to ticket, and redirects to ticket page
 @login_required
 def part(request, part):
-    part = Part.objects.filter(id=part)[0]
+    part = Part.objects.filter(id=part)[0] #TODO: make a part version of Ticket.fromID(ticket)
     form = ButtonButton(request.POST or None)
     posOrNeg = True
 
@@ -102,6 +112,8 @@ def part(request, part):
     return render(request, "nobility/part.html", {'form': form , 'part': part})
 
 
+# GET: accepts nothing (except request). returns page with TicketCreateForm()
+# POST: uses TicketCreateForm() to generate ticket. redirects to ticket page.
 @login_required
 def addTicket(request):
     form = TicketCreateForm(request.POST or None)
@@ -116,6 +128,8 @@ def addTicket(request):
     return render(request, "nobility/addTicket.html", {"form": form})
 
 
+# GET: accepts ticket number (ticket.id). returns page with TicketEditForm()
+# POST: accepts ticket number and uses TicketEditForm() to update ticket. redirects to ticket page
 @login_required
 def editTicket(request, ticket):
     ticket = Ticket.fromID(ticket)
@@ -134,6 +148,9 @@ def editTicket(request, ticket):
 
     return render(request, "nobility/editTicket.html", {"form": form, "ticket": ticket})
 
+# GET: accepts ticket number (ticket.id). returns page with ChangeStateOfForm()
+# POST: acceptes ticket number and uses request.POST['state'] item to update ticket state.
+## redirects to ticket page
 @login_required
 def changeStateOf(request, ticket):
     ticket = Ticket.fromID(ticket)
@@ -151,10 +168,12 @@ def changeStateOf(request, ticket):
 
     return render(request, "nobility/changeStateOf.html", {"form": form, "ticket": ticket})
 
+
 class SearchResultsView(ListView):
     model = Ticket
     template_name = 'searchResults.html'
-
+    # GET: ?????
+    # POST: ?????
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Ticket.objects.filter(
@@ -172,6 +191,9 @@ class SearchResultsView(ListView):
 
         return otherList
 
+
+# GET: accepts nothing. returns page with LoginForm()
+#POST: accepts nothing and uses LoginForm() to authenticate the user. redirects to home page ##TODO: redirect to 'next' page
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -187,6 +209,9 @@ def login_view(request):
 
     return render(request, "nobility/login.html", {"form": form})
 
+
+# GET: accepts nothing. logs request.user out and redirects to login page
+# POST: accepts nothing. does nothing. returns nothing
 def logout_view(request):
     logout(request)
     return redirect("/login/")

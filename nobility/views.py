@@ -198,6 +198,7 @@ class SearchResultsView(ListView):
 
         return otherList
 
+
 # I don't know how this works
 def download_file(request):
     # Define Django project base directory
@@ -217,6 +218,7 @@ def download_file(request):
         response['Content-Disposition'] = "attachment; filename=%s" % filename
         # Return the response value
         return response
+
 
 # GET: accepts nothing. returns page with LoginForm()
 # POST: accepts nothing and uses LoginForm() to authenticate the user. redirects to home page ##TODO: redirect to 'next' page

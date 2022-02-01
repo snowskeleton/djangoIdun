@@ -122,8 +122,8 @@ class Part(models.Model):
         return Part(
         cost = part["cost"] if part["cost"] else 0,
         name = part["name"],
-        mpn = part["mpn"] if part["mpn"] else None,
-        sku = part["sku"] if part["sku"] else None,
+        mpn = part["mpn"] if part["mpn"] else '--blank--',
+        sku = part["sku"] if part["sku"] else '--blank--',
         ticket = ticket,
         ordered = False,
         replaced = False,

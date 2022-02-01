@@ -68,7 +68,7 @@ class Ticket(models.Model):
         prettyParts = []
         for part in self.parts():
             prettyParts.append(part.name)
-        return ', '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
+        return '; '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
     @classmethod
     def csvExport(self):

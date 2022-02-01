@@ -106,7 +106,7 @@ def part(request, part):
         body=f"{'' if posOrNeg else '— '}" +
         f"{request.POST['action']}" +
         f"{'d' if request.POST['action'] != 'Order' else 'ed'} " +
-        " [{part.name}].",
+        f" [{part.name}].",
         # the above dynamically adds either "d" or "ed" to the 'action', depending on grammar
         ticket=part.ticket,
         user=request.user)

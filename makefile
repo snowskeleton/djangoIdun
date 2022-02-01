@@ -20,10 +20,11 @@ source .crips/migrateDatabase.sh
 sudo cp default_setup/defaultApache /etc/apache2/sites-available/royal
 sudo a2ensite royal
 sudo a2dissite 000-default.conf
+sudo mkdir -p /var/www/nobility/ && sudo cp -r $(pwd) /var/www/
 sudo chown :www-data /var/www/nobility/db.sqlite3
 sudo chown :www-data /var/www/nobility/
 sudo chown -R :www-data /var/www/nobility/media
 sudo chmod -R 775 /var/www/nobility/media
 sudo chmod 664 /var/www/nobility/db.sqlite3
 sudo systemctl enable apache2
-sudo systemctl restart apach2
+sudo systemctl restart apache2

@@ -139,3 +139,34 @@ class Part(models.Model):
 
     def needed(self):
         return True if self.replaced == False else False
+
+    @classmethod
+    def csvExport(self):
+        import csv
+        header = [
+            'id',
+            'name',
+            'cost',
+            'ordered',
+            'replaced',
+            'mpn',
+            'sku',
+            'ticket',
+            ]
+        with open('./downloads/export/export.csv', 'w+') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+        for part in Part.objects.all():
+            data = [
+                f'{part.id}',
+                f'{part.name}',
+                f'{part.cost}',
+                f'{part.ordered}',
+                f'{part.replaced}',
+                f'{part.mpn}',
+                f'{part.sku}',
+                f'{part.ticket.id}',
+                ]
+            with open('./downloads/export/export.csv', 'a+') as f:
+                writer = csv.writer(f)
+                writer.writerow(data)

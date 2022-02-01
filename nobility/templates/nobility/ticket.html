@@ -5,7 +5,7 @@ Ticket #{{ ticket.id }}
 {% block content %}
 <div class="wrap">
             <div class="fleft">
-                <p class="deetsHeader">TICKET: {{ ticket.id }}</p>
+                <p class="deetsHeader">TICKET: {{ ticket.paddedID }}</p>
                 {% if ticket.model %}
                     <p class="deetsHeader">MODEL: {{ ticket.model }}</p>
                 {% endif %}

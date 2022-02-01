@@ -1,3 +1,4 @@
+from turtle import down
 from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView
@@ -189,16 +190,24 @@ def searchResultsView(request):
         if ob.state in request.GET.getlist('state'):
             tickets.append(object_list.get(id=ob.id))
 
-    print(tickets, "otherlist")
     return render(request, "nobility/searchResults.html", {"tickets": tickets})
+
+
+def export(request):
+    if request.method == "POST":
+        return download_file(request)
+    return render(request, "nobility/export.html")
 
 
 # returns a csv of all tickets
 # TODO: make this accept paramaters by which to filter the csv
 def download_file(request): # why am I passing in request if I'm not using it?
     # prepare a new csv file
-    Ticket.csvExport()
     filename = 'export.csv'
+    if request.POST['action'] == 'Tickets':
+        Ticket.csvExport()
+    if request.POST['action'] == 'Parts':
+        Part.csvExport()
 
     # locate the new csv file
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -1,6 +1,6 @@
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html
+        DocumentRoot /var/www/nobiility
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
@@ -20,7 +20,7 @@
                 </Files>
         </Directory>
 
-        WSGIScriptAlias / /var/www/nobility/royal/wsgi.py>
+        WSGIScriptAlias / /var/www/nobility/royal/wsgi.py
         WSGIDaemonProcess royal python-path=/var/www/nobility python-home=/var/www/nobility/venv
         WSGIProcessGroup royal
 </VirtualHost>

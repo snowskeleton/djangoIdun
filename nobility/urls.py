@@ -20,6 +20,6 @@ urlpatterns = [
     path("addPart/<ticket>", views.addPart, name="addPart"),
     path("note/<ticket>", views.note, name="note"),
     path("download/", views.download_file, name="download"),
-    path("export/", views.export, name="download"),
+    path("export/", views.export, name="export"),
     path("searchResults/", views.searchResultsView, name="searchResults"),
 ]

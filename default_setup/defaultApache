@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        Alias /static /var/www/nobility/static
+        <Directory /var/www/nobility/static>
+                Require all granted
+        </Directory>
+
+        Alias /media /var/www/nobility/media
+        <Directory /var/www/nobility/media>
+                Require all granted
+        </Directory>
+
+        <Directory /var/www/nobility/royal>
+                <Files wsgi.py>
+                        Require all granted
+                </Files>
+
+        WSGIScriptAlias / /var/www/nobility/royal/wsgi.py>
+        WSGIDaemonProcess royal python-path=/var/www/nobility python-home=/var/www/nobility/venv
+        WSGIProcessGroup royal
+</VirtualHost>

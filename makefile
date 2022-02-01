@@ -2,9 +2,28 @@ sudo apt-get install -y python3 python3-pip sqlite3 python3-venv apache2 libapac
 python3 -m venv ./venv
 source venv/bin/activate
 pip install -r requirements.txt
-# need to change settings.py file. add the correct ALLOWED_HOSTS, and configure static and media paths
+
+#bash
+key=$(openssl rand -base64 32)
+echo "SECRET_KEY=${key}" > .env
+printf "hostname (name of your website, or IP address): "
+read hostname
+echo "ALLOWED_HOSTS=['${hostname}']" >> .env
+echo "STATIC_URL=('static')" >> .env
+echo "STATIC_ROOT=('/static/')" >> .env
+echo "MEDAI_URL=('media')" >> .env
+echo "MEDIA_ROOT=('/media/')" >> .env
 # https://www.youtube.com/watch?v=Sa_kQheCnds
+#nobash
 python manage.py collectstatic
 source .crips/migrateDatabase.sh
-start apache2 service and give permissions
-
+sudo cp default_setup/defaultApache /etc/apache2/sites-available/royal
+sudo a2ensite royal
+sudo a2dissite 000-default.conf
+sudo chown :www-data /var/www/nobility/db.sqlite3
+sudo chown :www-data /var/www/nobility/
+sudo chown -R :www-data /var/www/nobility/media
+sudo chmod -R 775 /var/www/nobility/media
+sudo chmod 664 /var/www/nobility/db.sqlite3
+sudo systemctl enable apache2
+sudo systemctl restart apach2

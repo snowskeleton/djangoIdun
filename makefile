@@ -17,8 +17,8 @@ echo "MEDIA_ROOT=('/media/')" >> .env
 #nobash
 python manage.py collectstatic
 source .crips/migrateDatabase.sh
-sudo cp default_setup/defaultApache /etc/apache2/sites-available/royal
-sudo a2ensite royal
+sudo cp default_setup/defaultApache /etc/apache2/sites-available/royal.conf
+sudo a2ensite royal.conf
 sudo a2dissite 000-default.conf
 sudo touch db.sqlite3 && mkdir media
 sudo mkdir -p /var/www/nobility/ && sudo cp -r $(pwd) /var/www/

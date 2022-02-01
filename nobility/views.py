@@ -4,7 +4,6 @@ from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-import mimetypes
 import os
 from django.http.response import HttpResponse
 

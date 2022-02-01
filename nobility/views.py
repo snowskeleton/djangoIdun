@@ -195,24 +195,24 @@ class SearchResultsView(ListView):
         return otherList
 
 
-# I don't know how this works
-def download_file(request):
-    # Define Django project base directory
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    # Define text file name
+# returns a csv of all tickets
+# TODO: make this accept paramaters by which to filter the csv
+def download_file(request): # why am I passing in request if I'm not using it?
+    # prepare a new csv file
     Ticket.csvExport()
     filename = 'export.csv'
-    # Define the full file path
+
+    # locate the new csv file
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     filepath = BASE_DIR + '/downloads/export/' + filename
-    # Open the file for reading content
+
+    # declare the type of content (csv) in the HTTP header,
+    ##then attach the location of the file to be served,
+    ##which will be treated as downloadable thanks to
+    ##setting the content type.
     with open(filepath, 'r') as path:
-        # Set the mime type
-        mime_type, _ = mimetypes.guess_type(filepath)
-        # Set the return value of the HttpResponse
-        response = HttpResponse(path, content_type=mime_type)
-        # Set the HTTP header for sending to browser
-        response['Content-Disposition'] = "attachment; filename=%s" % filename
-        # Return the response value
+        response = HttpResponse(path, content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename={filename}'
         return response
 
 

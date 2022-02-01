@@ -9,10 +9,10 @@ echo "SECRET_KEY=${key}" > .env
 printf "hostname (name of your website, or IP address): "
 read hostname
 echo "ALLOWED_HOSTS = ['${hostname}']" >> royal/.env.py
-echo "STATIC_URL =('static/')" >> royal/.env.py
-echo "STATIC_ROOT = ('/static/')" >> royal/.env.py
-echo "MEDAI_URL = ('media/')" >> royal/.env.py
-echo "MEDIA_ROOT = ('/media/')" >> royal/.env.py
+echo "STATIC_URL = ['static/']" >> royal/.env.py
+echo "STATIC_ROOT = ['static/']" >> royal/.env.py
+echo "MEDIA_URL = ['media/']" >> royal/.env.py
+echo "MEDIA_ROOT = ['media/']" >> royal/.env.py
 # https://www.youtube.com/watch?v=Sa_kQheCnds
 #nobash
 python manage.py collectstatic

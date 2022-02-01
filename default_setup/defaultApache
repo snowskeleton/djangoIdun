@@ -18,6 +18,7 @@
                 <Files wsgi.py>
                         Require all granted
                 </Files>
+        </Directory>
 
         WSGIScriptAlias / /var/www/nobility/royal/wsgi.py>
         WSGIDaemonProcess royal python-path=/var/www/nobility python-home=/var/www/nobility/venv

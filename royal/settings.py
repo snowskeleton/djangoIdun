@@ -21,7 +21,7 @@ env = environ.Env()
 environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
-DEBUG = env('DEBUG')
+DEBUG = True
 
 
 # Application definitionenviron

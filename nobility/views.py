@@ -172,27 +172,25 @@ def changeStateOf(request, ticket):
     return render(request, "nobility/changeStateOf.html", {"form": form, "ticket": ticket})
 
 
-class SearchResultsView(ListView):
-    model = Ticket
-    template_name = 'searchResults.html'
-    # GET: ?????
-    # POST: ?????
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        object_list = Ticket.objects.filter(
-           (Q(id__icontains=query ) |
-            Q(serial__icontains=query) |
-            Q(model__icontains=query) |
-            Q(claim__icontains=query) |
-            Q(customer__icontains=query))
-            )
+# GET: accepts  nothing and uses request.GET['q'] to fetch objects from database. returns Ticket() list
+def searchResultsView(request):
+    query = request.GET['q']
+    object_list = Ticket.objects.filter(
+        (Q(id__icontains=query ) |
+        Q(serial__icontains=query) |
+        Q(model__icontains=query) |
+        Q(claim__icontains=query) |
+        Q(customer__icontains=query))
+        )
+    print(object_list, "object list")
 
-        otherList = []
-        for ob in object_list:
-            if ob.state in self.request.GET.getlist('state'):
-                otherList.append(object_list.get(id=ob.id))
+    tickets = []
+    for ob in object_list:
+        if ob.state in request.GET.getlist('state'):
+            tickets.append(object_list.get(id=ob.id))
 
-        return otherList
+    print(tickets, "otherlist")
+    return render(request, "nobility/searchResults.html", {"tickets": tickets})
 
 
 # returns a csv of all tickets

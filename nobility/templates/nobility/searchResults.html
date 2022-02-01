@@ -3,8 +3,8 @@
     Search
 {% endblock %}
 {% block content %}
-{% if object_list %}
-    {% include "nobility/table.html" with tickets=object_list %}
+{% if tickets %}
+    {% include "nobility/table.html" with tickets=tickets %}
 {% else %}
     <p>No results :(</p>
 {% endif %}

@@ -3,4 +3,4 @@
 .DS_STORE
 *__pycache__*
 db.sqlite3
-downloads/exports/*
+downloads/*

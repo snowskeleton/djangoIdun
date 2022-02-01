@@ -18,6 +18,7 @@ class HomeListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeListView, self).get_context_data(**kwargs)
+
         return context
 
 
@@ -213,6 +214,7 @@ def download_file(request): # why am I passing in request if I'm not using it?
     with open(filepath, 'r') as path:
         response = HttpResponse(path, content_type='text/csv')
         response['Content-Disposition'] = f'attachment; filename={filename}'
+
         return response
 
 
@@ -238,4 +240,5 @@ def login_view(request):
 # POST: accepts nothing. does nothing. returns nothing
 def logout_view(request):
     logout(request)
+
     return redirect("/login/")

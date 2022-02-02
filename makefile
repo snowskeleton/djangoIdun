@@ -3,7 +3,7 @@ sudo apt update
 sudo apt-get install -y python3 python3-pip python3.8-venv python3-tk apache2 libapache2-mod-wsgi-py3
 sudo python3 -m venv ./venv
 source venv/bin/activate
-pip3 install -r requirements.txt
+sudo pip3 install -r requirements.txt
 
 #bash
 key=$(openssl rand -base64 32)
@@ -17,7 +17,7 @@ echo "MEDIA_URL = ['media/']" >> royal/.env.py
 echo "MEDIA_ROOT = ['media/']" >> royal/.env.py
 # https://www.youtube.com/watch?v=Sa_kQheCnds
 #nobash
-python manage.py collectstatic
+sudo python3 manage.py collectstatic
 # source .crips/migrateDatabase.sh
 sudo cp default_setup/defaultApache /etc/apache2/sites-available/royal.conf
 sudo a2ensite royal.conf

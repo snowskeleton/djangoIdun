@@ -1,7 +1,7 @@
 # prelim
 sudo apt update
-sudo apt-get install -y python3 python3-pip python3.8-venv python3-tk apache2 libapache2-mod-wsgi-py3
-alias python3='${pwd}/nobility/venv/bin/python3'
+sudo apt-get install -y python3 python3-pip python3-venv python3-tk apache2 libapache2-mod-wsgi-py3
+alias python3="${pwd}/nobility/venv/bin/python3"
 sudo python3 -m venv ./venv
 source venv/bin/activate
 sudo venv/bin/python3 -m pip install -r requirements.txt
@@ -31,7 +31,7 @@ sudo python3 manage.py makemigrations
 sudo python3 manage.py migrate
 printf "New admin user: "
         read username
-sudo python3 manage.py createsuperuser --username=${username}
+sudo python3 manage.py createsuperuser --username=${username} --email=''
 sudo chown -R :www-data ${pwd}/nobility
 sudo chmod -R 775 ${pwd}/nobility/media
 sudo chmod 664 ${pwd}/nobility/db.sqlite3

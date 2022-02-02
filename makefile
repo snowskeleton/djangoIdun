@@ -1,20 +1,20 @@
-# sudo apt-get install -y python3 python3-pip pythonsqlite3 python3-venv python3-tk apache2 libapache2-mod-wsgi-py3
+sudo apt-get install -y python3 python3-pip pythonsqlite3 python3-venv python3-tk apache2 libapache2-mod-wsgi-py3
 sudo apt update
 sudo apt-get install -y python3 python3-pip python3.8-venv python3-tk apache2 libapache2-mod-wsgi-py3
 sudo python3 -m venv ./venv
 source venv/bin/activate
-sudo pip3 install -r requirements.txt
+sudo python3 -m pip install -r requirements.txt
 
 #bash
 key=$(openssl rand -base64 32)
 echo "SECRET_KEY=${key}" > .env
 printf "hostname (name of your website, or IP address): "
 read hostname
-echo "ALLOWED_HOSTS = ['${hostname}']" >> royal/.env.py
-echo "STATIC_URL = ['static/']" >> royal/.env.py
-echo "STATIC_ROOT = ['static/']" >> royal/.env.py
-echo "MEDIA_URL = ['media/']" >> royal/.env.py
-echo "MEDIA_ROOT = ['media/']" >> royal/.env.py
+echo "ALLOWED_HOSTS=['${hostname}', "127.0.0.1"]" >> .env
+echo "STATIC_URL='static/'" >> .env
+echo "STATIC_ROOT='static/'" >> .env
+echo "MEDIA_URL='media/'" >> .env
+echo "MEDIA_ROOT='media/'" >> .env
 # https://www.youtube.com/watch?v=Sa_kQheCnds
 #nobash
 sudo python3 manage.py collectstatic

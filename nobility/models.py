@@ -84,7 +84,7 @@ class Ticket(models.Model):
             'date',
             'parts',
             ]
-        with open('./downloads/export/export.csv', 'w+') as f:
+        with open('/tmp/export.csv', 'w+') as f:
             writer = csv.writer(f)
             writer.writerow(header)
         for ticket in Ticket.objects.all():
@@ -99,7 +99,7 @@ class Ticket(models.Model):
                 f'{ticket.creationDate:%Y-%m-%d %H:%M}',
                 f'{ticket.prettyParts()}',
                 ]
-            with open('./downloads/export/export.csv', 'a+') as f:
+            with open('/tmp/export.csv', 'a+') as f:
                 writer = csv.writer(f)
                 writer.writerow(data)
 
@@ -153,7 +153,7 @@ class Part(models.Model):
             'sku',
             'ticket',
             ]
-        with open('./downloads/export/export.csv', 'w+') as f:
+        with open('/tmp/export.csv', 'w+') as f:
             writer = csv.writer(f)
             writer.writerow(header)
         for part in Part.objects.all():
@@ -167,6 +167,6 @@ class Part(models.Model):
                 f'{part.sku}',
                 f'{part.ticket.id}',
                 ]
-            with open('./downloads/export/export.csv', 'a+') as f:
+            with open('/tmp/export.csv', 'a+') as f:
                 writer = csv.writer(f)
                 writer.writerow(data)

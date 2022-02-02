@@ -210,8 +210,7 @@ def download_file(request): # why am I passing in request if I'm not using it?
         Part.csvExport()
 
     # locate the new csv file
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    filepath = BASE_DIR + '/downloads/export/' + filename
+    filepath = '/tmp/export/' + filename
 
     # declare the type of content (csv) in the HTTP header,
     ##then attach the location of the file to be served,

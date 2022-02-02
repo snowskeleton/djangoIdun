@@ -1,26 +1,26 @@
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
-        DocumentRoot /home/snow/nobiility
+        DocumentRoot /home/changeMe/nobiility
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        Alias /static /home/snow/nobility/static
-        <Directory /home/snow/nobility/static>
+        Alias /static /home/changeMe/nobility/static
+        <Directory /home/changeMe/nobility/static>
                 Require all granted
         </Directory>
 
-        Alias /media /home/snow/nobility/media
-        <Directory /home/snow/nobility/media>
+        Alias /media /home/changeMe/nobility/media
+        <Directory /home/changeMe/nobility/media>
                 Require all granted
         </Directory>
 
-        <Directory /home/snow/nobility/royal>
+        <Directory /home/changeMe/nobility/royal>
                 <Files wsgi.py>
                         Require all granted
                 </Files>
         </Directory>
 
-        WSGIScriptAlias / /home/snow/nobility/royal/wsgi.py
-        WSGIDaemonProcess royal python-path=/home/snow/nobility python-home=/home/snow/nobility/venv
+        WSGIScriptAlias / /home/changeMe/nobility/royal/wsgi.py
+        WSGIDaemonProcess royal python-path=/home/changeMe/nobility python-home=/home/changeMe/nobility/venv
         WSGIProcessGroup royal
 </VirtualHost>

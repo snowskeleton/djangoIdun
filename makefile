@@ -19,7 +19,7 @@ echo "MEDIA_ROOT='media/'" >> .env
 
 # site setup
 sudo python3 manage.py collectstatic
-sudo cp default_setup/defaultApache /etc/apache2/sites-available/royal.conf
+sudo sed "s/changeMe/${USER}/g" default_setup/defaultApache > /etc/apache2/sites-available/royal.conf
 sudo a2ensite royal.conf
 sudo a2dissite 000-default.conf
 

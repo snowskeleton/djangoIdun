@@ -1,7 +1,7 @@
 # prelim
 sudo apt update
 sudo apt-get install -y python3 python3-pip python3.8-venv python3-tk apache2 libapache2-mod-wsgi-py3
-alias python3='/home/snow/venv/bin/python3'
+alias python3='${pwd}/nobility/venv/bin/python3'
 sudo python3 -m venv ./venv
 source venv/bin/activate
 sudo venv/bin/python3 -m pip install -r requirements.txt
@@ -24,11 +24,17 @@ sudo a2ensite royal.conf
 sudo a2dissite 000-default.conf
 
 # permissions
+sudo rm db.sqlite3
 sudo touch db.sqlite3 && mkdir media
-sudo mkdir -p /var/www/nobility/ && sudo cp -r $(pwd) /var/www/
-sudo chown -R :www-data /var/www/nobility
-sudo chmod -R 775 /var/www/nobility/media
-sudo chmod 664 /var/www/nobility/db.sqlite3
+sudo python3 manage.py migrate --run-syncdb
+sudo python3 manage.py makemigrations
+sudo python3 manage.py migrate
+printf "New admin user: "
+        read username
+sudo python3 manage.py createsuperuser --username=${username}
+sudo chown -R :www-data ${pwd}/nobility
+sudo chmod -R 775 ${pwd}/nobility/media
+sudo chmod 664 ${pwd}/nobility/db.sqlite3
 
 export DJANGO_SETTINGS_MODULE=royal.settings
 

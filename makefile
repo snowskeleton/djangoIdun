@@ -23,18 +23,21 @@ sudo sed "s/changeMe/${USER}/g" default_setup/defaultApache > sudo /etc/apache2/
 sudo a2ensite royal.conf
 sudo a2dissite 000-default.conf
 
-# permissions
+# permissions and db
 sudo rm db.sqlite3
 sudo touch db.sqlite3 && mkdir media
+sudo chown www-data:www-data  db.sqlite3
 sudo python3 manage.py migrate --run-syncdb
 sudo python3 manage.py makemigrations
 sudo python3 manage.py migrate
+sudo chown -R www-data:www-data ../nobility
+sudo chmod -R 775 media
+sudo chmod 664 db.sqlite3
+
+# new user
 printf "New admin user: "
         read username
 sudo python3 manage.py createsuperuser --username=${username} --email=''
-sudo chown -R :www-data ${pwd}/nobility
-sudo chmod -R 775 ${pwd}/nobility/media
-sudo chmod 664 ${pwd}/nobility/db.sqlite3
 
 export DJANGO_SETTINGS_MODULE=royal.settings
 

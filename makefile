@@ -1,7 +1,7 @@
 sudo apt-get install -y python3 python3-pip pythonsqlite3 python3-venv python3-tk apache2 libapache2-mod-wsgi-py3
-python3 -m venv ./venv
+sudo python3 -m venv ./venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 #bash
 key=$(openssl rand -base64 32)

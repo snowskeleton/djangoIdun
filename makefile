@@ -1,6 +1,6 @@
 # prelim
 sudo apt update
-sudo apt-get install -y python3 python3-pip python3-venv python3-tk apache2 libapache2-mod-wsgi-py3
+sudo apt-get install -y python3 python3-pip python3-venv python3-tk apache2 libapache2-mod-wsgi-py3 sqlite3
 sudo python3 -m venv ./venv
 alias python3="venv/bin/python3"
 source venv/bin/activate

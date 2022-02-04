@@ -1,15 +1,16 @@
-from turtle import down
+# from turtle import down
 from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-import os
+# import os
 from django.http.response import HttpResponse
 
 from .forms import *
 from .models import Ticket, Part, Note
+from .ncsv import *
 
 
 class HomeListView(ListView):
@@ -84,33 +85,35 @@ def note(request, ticket):
 ## adds note to ticket, and redirects to ticket page
 @login_required
 def part(request, part):
-    part = Part.objects.filter(id=part)[0] #TODO: make a part version of Ticket.fromID(ticket)
+    part = Part.fromID(part) #TODO: make a part version of Ticket.fromID(ticket)
     form = ButtonButton(request.POST or None)
     posOrNeg = True
 
     if request.method == 'POST' and form.is_valid():
-        if request.POST['action'] == 'Order':
+        action = request.POST['action']
+
+        if action == 'Order':
             part.ordered ^= True
             posOrNeg = part.ordered
             part.save()
 
-        if request.POST['action'] == 'Replace':
+        if action == 'Replace':
             part.replaced ^= True
             posOrNeg = part.replaced
             part.save()
 
-        if request.POST['action'] == 'Delete':
+        if action == 'Delete':
             part.delete()
             posOrNeg = False
 
-        Note.objects.create(
-        body=f"{'' if posOrNeg else '— '}" +
-        f"{request.POST['action']}" +
-        f"{'d' if request.POST['action'] != 'Order' else 'ed'} " +
-        f" [{part.name}].",
-        # the above dynamically adds either "d" or "ed" to the 'action', depending on grammar
-        ticket=part.ticket,
-        user=request.user)
+
+        body = [
+            f"{'' if posOrNeg else '— '}", # TODO: something better. I hate this line
+            f"{action}",
+            f"{'d' if action != 'Order' else 'ed'} ",
+            f" [{part.name}].",
+        ]
+        Note.log(part.ticket, ''.join(body), request)
         return redirect(f"/ticket/{part.ticket.id}")
 
     return render(request, "nobility/part.html", {'form': form , 'part': part})
@@ -124,8 +127,6 @@ def addTicket(request):
 
     if request.method == "POST" and form.is_valid():
         ticket = form.save(commit=False)
-        ticket.creationDate = datetime.now()
-        ticket.state = "New"
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
 
@@ -140,14 +141,7 @@ def editTicket(request, ticket):
     form = TicketEditForm(ticket=ticket)
 
     if request.method == "POST":
-        post = request.POST
-        ticket.serial = post['serial']
-        ticket.model = post['model']
-        ticket.assetTag = post['assetTag']
-        ticket.customer = post['customer']
-        ticket.claim = post['claim']
-        ticket.state = post['state']
-        ticket.save()
+        ticket = ticket.updateWith(request)
         return redirect(f"/ticket/{ticket.id}")
 
     return render(request, "nobility/editTicket.html", {"form": form, "ticket": ticket})
@@ -161,13 +155,7 @@ def changeStateOf(request, ticket):
     form = ChangeStateOfForm(ticket=ticket)
 
     if request.method == "POST":
-        ticket.state = request.POST['state']
-        ticket.save()
-        Note.objects.create(
-        body=f"{request.user} changed status to [{request.POST['state']}].",
-        ticket=ticket,
-        user=request.user
-        )
+        ticket = ticket.updateState(request)
         return redirect(f"/ticket/{ticket.id}")
 
     return render(request, "nobility/changeStateOf.html", {"form": form, "ticket": ticket})

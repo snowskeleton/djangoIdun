@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.http import HttpResponse
 from . import longLists
 
 
@@ -19,7 +18,8 @@ class Ticket(models.Model):
         max_length=90,
         null=True,
         blank=True,
-        choices=longLists.states
+        choices=longLists.states,
+        default='New'
     )
     model = models.CharField(
         max_length=90,
@@ -27,6 +27,28 @@ class Ticket(models.Model):
         blank=True,
         choices=longLists.devices,
     )
+
+    def updateState(self, request):
+        ticket = self
+        ticket.state = request.POST['state']
+        ticket.save()
+        log = f"Status changed to [{request.POST['state']}]."
+        Note.log(ticket, log, request)
+        return ticket
+
+    # accepts HTTP request object. uses details of said object to update fields of self
+    # this will have to incorporate validation logic if I ever want to track when something
+    ##was updated
+    def updateWith(self, request):
+        post = request.POST
+        self.serial = post['serial']
+        self.model = post['model']
+        self.assetTag = post['assetTag']
+        self.customer = post['customer']
+        self.claim = post['claim']
+        self.state = post['state']
+        self.save()
+        return self
 
     def notes(self):
         return Note.objects.filter(ticket=self).order_by('-date') #newest note on top
@@ -112,9 +134,24 @@ class Note(models.Model):
     date = models.DateTimeField("date created", auto_now_add=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+
+    # accepts HTTP request, text string, and ticket() object. creates note for ticket with string
+    @classmethod
+    # def log(self, ticket):
+    def log(self, ticket, body, request):
+        Note.objects.create(
+        body=body,
+        ticket=ticket,
+        user=request.user
+        )
+
     
 
 class Part(models.Model):
+    @classmethod
+    def fromID(self, part):
+        return Part.objects.get(id=part)
+
     # accepts ticket() and part{} (part as dictionary; see longLists.py for examples).
     ## returns Part() with values from part{}
     @classmethod

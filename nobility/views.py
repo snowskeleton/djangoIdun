@@ -173,7 +173,6 @@ def searchResultsView(request):
         Q(claim__icontains=query) |
         Q(customer__icontains=query)
         ))
-    print(object_list, "object list")
 
     tickets = []
     for ob in object_list:

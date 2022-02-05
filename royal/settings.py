@@ -21,6 +21,7 @@ env = environ.Env(ALLOWED_HOSTS=(list, []),)
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+EXPORT_PATH = 'tmp/'
 DEBUG = True
 
 # Application definitionenviron

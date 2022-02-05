@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 # import os
 from django.http.response import HttpResponse
 
+from royal.settings import EXPORT_PATH
+
 from .forms import *
 from .models import Ticket, Part, Note
 from .ncsv import *
@@ -187,26 +189,19 @@ def export(request):
     return render(request, "nobility/export.html")
 
 
-# returns a csv of all tickets
+# GET: accepts nothing and uses request params to build a CSV and provide a download link
 # TODO: make this accept paramaters by which to filter the csv
 def download_file(request): # why am I passing in request if I'm not using it?
-    # prepare a new csv file
-    filename = 'export.csv'
-    if request.POST['action'] == 'Tickets':
-        Ticket.csvExport()
-    if request.POST['action'] == 'Parts':
-        Part.csvExport()
+    # creates a new .csv file with the requested information
+    req = NCSV(request)
 
-    # locate the new csv file
-    filepath = '/tmp/export/' + filename
-
-    # declare the type of content (csv) in the HTTP header,
+    # declare the type of content (text/csv) in the HTTP header,
     ##then attach the location of the file to be served,
     ##which will be treated as downloadable thanks to
-    ##setting the content type.
-    with open(filepath, 'r') as path:
+    ##setting the content type (text/csv).
+    with open(req.filepath(), 'r') as path:
         response = HttpResponse(path, content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename={filename}'
+        response['Content-Disposition'] = f'attachment; filename={req.filename}'
 
         return response
 

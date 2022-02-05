@@ -3,9 +3,9 @@
     Edit {{ ticket.id }}
 {% endblock %}
 {% block content %}
-<form method="POST">
+<form method="GET">
     {% csrf_token %}
-    <input class="btn" type="submit" name="action" value="Tickets">
-    <input class="btn" type="submit" name="action" value="Parts">
+    <input class="btn" type="submit" name="table" value="Tickets">
+    <input class="btn" type="submit" name="table" value="Parts">
 </form>
 {% endblock %}

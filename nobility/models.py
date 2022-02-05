@@ -162,7 +162,7 @@ class Part(models.Model):
     ## returns Part() with values from part{}
     @classmethod
     def spawn(self, ticket, part, request):
-        return Part(
+        return Part.objects.create(
         cost = part["cost"] if part["cost"] else 0,
         name = part["name"],
         mpn = part["mpn"] if part["mpn"] else '--blank--',
@@ -171,7 +171,7 @@ class Part(models.Model):
         ticket = ticket,
         ordered = False,
         replaced = False,
-        ).save()
+        )
 
     name = models.CharField(max_length=127)
     cost = models.FloatField(max_length=12, null=True)

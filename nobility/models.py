@@ -127,6 +127,10 @@ class Ticket(models.Model):
                 writer = csv.writer(f)
                 writer.writerow(data)
 
+    def __str__(self):
+        return "#" + self.paddedID
+
+
 class Device(models.Model):
     model = models.CharField(max_length=127)
 

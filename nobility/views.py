@@ -166,6 +166,7 @@ def changeStateOf(request, ticket):
 
 
 # GET: accepts  nothing and uses request.GET['q'] to fetch objects from database. returns Ticket() list
+@login_required
 def searchResultsView(request):
     query = request.GET['q']
     states = request.GET.getlist('state')

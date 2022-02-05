@@ -1,5 +1,6 @@
 # from turtle import down
-from django.utils.timezone import datetime
+# from django.http import QueryDict
+# from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView
 from django.db.models import Q
@@ -167,18 +168,16 @@ def changeStateOf(request, ticket):
 # GET: accepts  nothing and uses request.GET['q'] to fetch objects from database. returns Ticket() list
 def searchResultsView(request):
     query = request.GET['q']
-    object_list = Ticket.objects.filter((
+    states = request.GET.getlist('state')
+    queries = ( # effectly a 'full-text' search, but sqlite is special
         Q(id__icontains=query) |
         Q(serial__icontains=query) |
         Q(model__icontains=query) |
         Q(claim__icontains=query) |
         Q(customer__icontains=query)
-        ))
-
-    tickets = []
-    for ob in object_list:
-        if ob.state in request.GET.getlist('state'):
-            tickets.append(object_list.get(id=ob.id))
+        )
+    tickets = Ticket.objects.filter(queries)
+    tickets = tickets.filter(state__in=states)
 
     return render(request, "nobility/searchResults.html", {"tickets": tickets})
 

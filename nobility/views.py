@@ -166,13 +166,13 @@ def changeStateOf(request, ticket):
 # GET: accepts  nothing and uses request.GET['q'] to fetch objects from database. returns Ticket() list
 def searchResultsView(request):
     query = request.GET['q']
-    object_list = Ticket.objects.filter(
-        (Q(id__icontains=query ) |
+    object_list = Ticket.objects.filter((
+        Q(id__icontains=query) |
         Q(serial__icontains=query) |
         Q(model__icontains=query) |
         Q(claim__icontains=query) |
-        Q(customer__icontains=query))
-        )
+        Q(customer__icontains=query)
+        ))
     print(object_list, "object list")
 
     tickets = []

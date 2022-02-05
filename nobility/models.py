@@ -34,7 +34,7 @@ class Ticket(models.Model):
         ticket = self
         ticket.state = request.POST['state']
         ticket.save()
-        log = f"Status changed to [{request.POST['state']}]."
+        log = f"Status changed to [{ticket.state}]."
         Note.log(ticket, log, request)
         return ticket
 

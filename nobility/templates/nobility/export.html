@@ -3,7 +3,7 @@
     Edit {{ ticket.id }}
 {% endblock %}
 {% block content %}
-<form method="GET">
+<form method="POST">
     {% csrf_token %}
     <input class="btn" type="submit" name="table" value="Tickets">
     <input class="btn" type="submit" name="table" value="Parts">

@@ -54,11 +54,12 @@ def addPart(request, ticket):
     if request.method == "POST":
         for part in ticket.partsPossible():
             if part['name'] == request.POST['parts']:
-                Part.spawn(ticket, part)
+                Part.spawn(ticket, part, request)
                 Note.objects.create(
                     body=f"[{part['name']}] added.",
                     ticket=ticket,
-                    user=request.user
+                    user=request.user,
+                    # reason=request.POST['reason']
                     )
         return redirect(f"/ticket/{ticket.id}")
 

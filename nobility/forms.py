@@ -38,8 +38,9 @@ class PartsForm(forms.Form): #Note that it is not inheriting from forms.ModelFor
         for part in ticket.partsPossible():
             parts.append((part['name'], part['name']))
         self.fields['parts'] = forms.ChoiceField(choices=parts)
+        self.fields['reason'] = forms.CharField(max_length=127, required=False)
     class Meta:
-        fields = ('parts',)
+        fields = ('parts', 'reason',)
 
 
 class SearchForm(forms.Form):

@@ -161,12 +161,13 @@ class Part(models.Model):
     # accepts ticket() and part{} (part as dictionary; see longLists.py for examples).
     ## returns Part() with values from part{}
     @classmethod
-    def spawn(self, ticket, part):
+    def spawn(self, ticket, part, request):
         return Part(
         cost = part["cost"] if part["cost"] else 0,
         name = part["name"],
         mpn = part["mpn"] if part["mpn"] else '--blank--',
         sku = part["sku"] if part["sku"] else '--blank--',
+        reason = request.POST["reason"] if request.POST["reason"] else 'Damaged by student',
         ticket = ticket,
         ordered = False,
         replaced = False,
@@ -179,6 +180,7 @@ class Part(models.Model):
     mpn = models.CharField(max_length=24, null=True)
     sku = models.CharField(max_length=24, null=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=127, null=True)
 
     def needed(self):
         return True if self.replaced == False else False
@@ -195,6 +197,7 @@ class Part(models.Model):
             'mpn',
             'sku',
             'ticket',
+            'reason',
             ]
         with open(f'{EXPORT_PATH}/export.csv', 'w+') as f:
             writer = csv.writer(f)
@@ -209,6 +212,7 @@ class Part(models.Model):
                 f'{part.mpn}',
                 f'{part.sku}',
                 f'{part.ticket.id}',
+                f'{part.reason}',
                 ]
             with open(f'{EXPORT_PATH}/export.csv', 'a+') as f:
                 writer = csv.writer(f)

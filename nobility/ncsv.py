@@ -1,4 +1,3 @@
-# from django.http.response import HttpResponse
 from .models import *
 
 class NCSV():
@@ -24,7 +23,7 @@ class NCSV():
 
     @classmethod
     def valid(request):
-        return True
+        return True # I'll fix this later
 
     def filepath(self):
         return EXPORT_PATH + self.filename

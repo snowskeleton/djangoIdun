@@ -1,0 +1,23 @@
+{% extends "nobility/layout.html" %}
+{% block title %}
+    Edit {{ ticket.id }}
+{% endblock %}
+{% block content %}
+<form action="{% url 'searchResults' %}" method="GET">
+    All: <input name="q" type="text"><br>
+
+    Serial: <input name="toggle" value="serial" type="checkbox">
+        <input name="serial" type="text"><br>
+
+    Model: <input name="toggle" value="model" type="checkbox">
+        <input name="model" type="text"><br>
+
+    Asset: <input name="toggle" value="asset" type="checkbox">
+        <input name="asset" type="text"><br>
+
+    Customer: <input name="toggle" value="customer" type="checkbox">
+        <input name="customer" type="text"><br>
+
+    <input type="submit" name="action" value="Search!">
+</form>
+{% endblock %}

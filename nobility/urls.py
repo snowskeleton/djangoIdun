@@ -22,4 +22,5 @@ urlpatterns = [
     path("download/", views.download_file, name="download"),
     path("export/", views.export, name="export"),
     path("searchResults/", views.searchResultsView, name="searchResults"),
+    path("advancedSearch/", views.advancedSearchView, name="advancedSearch"),
 ]

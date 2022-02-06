@@ -21,6 +21,9 @@
         Repaired: <input name="state" value="Reparied" type="checkbox" checked=true>
         Finished: <input name="state" value="Finished" type="checkbox">
     </form>
+    <form action="{% url 'advancedSearch' %}" method="get">
+        <input name="advancedSearchButton" type="submit" value='Advanced'>
+    </form>
 </div>
 
 <div class="body-content">

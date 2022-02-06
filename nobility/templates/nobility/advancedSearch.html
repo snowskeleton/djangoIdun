@@ -4,6 +4,11 @@
 {% endblock %}
 {% block content %}
 <form action="{% url 'searchResults' %}" method="GET">
+    New: <input name="state" value="New" type="checkbox" checked=true>
+    Ordered: <input name="state" value="Ordered" type="checkbox" checked=true>
+    Repaired: <input name="state" value="Reparied" type="checkbox" checked=true>
+    Finished: <input name="state" value="Finished" type="checkbox"><br>
+
     All: <input name="q" type="text"><br>
 
     Serial: <input name="toggle" value="serial" type="checkbox">

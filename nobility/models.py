@@ -216,6 +216,6 @@ class Part(models.Model):
         with open(f'{EXPORT_PATH}/export.csv', 'w+') as f:
             writer = csv.writer(f)
             writer.writerow(header)
-        for part in Part.objects.all():
-            writer = csv.writer(f)
-            writer.writerow(part.__list__())
+            for part in Part.objects.all():
+                writer = csv.writer(f)
+                writer.writerow(part.__list__())

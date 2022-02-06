@@ -95,7 +95,7 @@ class Ticket(models.Model):
         return '; '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
     @classmethod
-    def csvExport(self):
+    def csvExport(self, queryset=None):
         import csv
         header = [ 'id',
             'model',
@@ -110,7 +110,9 @@ class Ticket(models.Model):
         with open(f'{EXPORT_PATH}/export.csv', 'w+') as f:
             writer = csv.writer(f)
             writer.writerow(header)
-            for ticket in Ticket.objects.all():
+
+            tickets = Ticket.objects.all() if queryset == None else Ticket.objects.filter(queryset)
+            for ticket in tickets:
                 data = ticket.__list__()
                 writer = csv.writer(f)
                 writer.writerow(data)
@@ -200,7 +202,7 @@ class Part(models.Model):
             ]
 
     @classmethod
-    def csvExport(self):
+    def csvExport(self, queryset=None):
         import csv
         header = [
             'id',
@@ -216,6 +218,8 @@ class Part(models.Model):
         with open(f'{EXPORT_PATH}/export.csv', 'w+') as f:
             writer = csv.writer(f)
             writer.writerow(header)
-            for part in Part.objects.all():
+
+            parts = Part.objects.all() if queryset == None else Part.objects.filter(queryset)
+            for part in parts:
                 writer = csv.writer(f)
                 writer.writerow(part.__list__())

@@ -97,8 +97,7 @@ class Ticket(models.Model):
     @classmethod
     def csvExport(self):
         import csv
-        header = [
-            'id',
+        header = [ 'id',
             'model',
             'serial',
             'asset',
@@ -111,24 +110,26 @@ class Ticket(models.Model):
         with open(f'{EXPORT_PATH}/export.csv', 'w+') as f:
             writer = csv.writer(f)
             writer.writerow(header)
-        for ticket in Ticket.objects.all():
-            data = [
-                f'{ticket.id}',
-                f'{ticket.model}',
-                f'{ticket.serial}',
-                f'{ticket.assetTag}',
-                f'{ticket.customer}',
-                f'{ticket.state}',
-                f'{ticket.cost()}',
-                f'{ticket.creationDate:%Y-%m-%d %H:%M}',
-                f'{ticket.prettyParts()}',
-                ]
-            with open(f'{EXPORT_PATH}/export.csv', 'a+') as f:
+            for ticket in Ticket.objects.all():
+                data = ticket.__list__()
                 writer = csv.writer(f)
                 writer.writerow(data)
 
     def __str__(self):
-        return "#" + self.paddedID
+        return "#" + self.paddedID()
+
+    def __list__(self):
+        return [
+            f'{self.id}',
+            f'{self.model}',
+            f'{self.serial}',
+            f'{self.assetTag}',
+            f'{self.customer}',
+            f'{self.state}',
+            f'{self.cost()}',
+            f'{self.creationDate:%Y-%m-%d %H:%M}',
+            f'{self.prettyParts()}',
+            ]
 
 
 class Device(models.Model):
@@ -185,6 +186,19 @@ class Part(models.Model):
     def needed(self):
         return True if self.replaced == False else False
 
+    def __list__(self):
+        return [
+            f'{self.id}',
+            f'{self.name}',
+            f'{self.cost}',
+            f'{self.ordered}',
+            f'{self.replaced}',
+            f'{self.mpn}',
+            f'{self.sku}',
+            f'{self.ticket}',
+            f'{self.reason}',
+            ]
+
     @classmethod
     def csvExport(self):
         import csv
@@ -203,17 +217,5 @@ class Part(models.Model):
             writer = csv.writer(f)
             writer.writerow(header)
         for part in Part.objects.all():
-            data = [
-                f'{part.id}',
-                f'{part.name}',
-                f'{part.cost}',
-                f'{part.ordered}',
-                f'{part.replaced}',
-                f'{part.mpn}',
-                f'{part.sku}',
-                f'{part.ticket.id}',
-                f'{part.reason}',
-                ]
-            with open(f'{EXPORT_PATH}/export.csv', 'a+') as f:
-                writer = csv.writer(f)
-                writer.writerow(data)
+            writer = csv.writer(f)
+            writer.writerow(part.__list__())

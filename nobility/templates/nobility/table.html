@@ -6,15 +6,21 @@
             <th class="table">Status</th>
             <th>Model</th>
             <th>Serial</th>
+            <th>Asset</th>
             <th>Parts</th>
         </tr>
         </thead>
         <tbody>
         {% for ticket in tickets %}
             <tr>
-                <td class="table-id"><a href="/ticket/{{ ticket.id }}"><input class="btn" type="submit" name="action" value="{{ ticket.paddedID }}"></a></td>
+                <td class="table-id">
+                    <a href="/ticket/{{ ticket.id }}">
+                        <input class="btn" type="submit" name="action" value="{{ ticket.paddedID }}">
+                    </a>
+                </td>
                 <td class="table-id">{{ ticket.state }}</td>
                 <td>{{ ticket.model }}</td>
+                <td>{{ ticket.assetTag }}</td>
                 <td>{{ ticket.serial }}</td>
                 <td>{{ ticket.prettyParts }}</td>
             </tr>

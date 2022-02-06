@@ -11,16 +11,6 @@ class NCSV():
         if self.table == 'Parts':
             Part.csvExport()
 
-            #     {
-            # 'filename': '<filename, probably .csv>',
-            # 'table': 'Ticket/Part',
-            # 'search criteria': { # dict of criteria, with "'field': 'value'" format
-            #     'customer': '<school name>',
-            #     'model': '<model>',
-            #     #etc
-            #     }
-            # }
-
     @classmethod
     def valid(request):
         return True # I'll fix this later

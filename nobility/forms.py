@@ -57,7 +57,7 @@ class NoteForm(forms.ModelForm):
         fields = ('body',)
 
 
-User = get_user_model()
+User = get_user_model() #does this really need to be here?
 
 class LoginForm(forms.Form):
     username = forms.CharField()

@@ -48,6 +48,29 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'royal.urls'
 
+LOGGING = {
+        'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'db': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/db.log',
+        },
+    },
+    'root': {
+        'handlers': ['db'],
+        'level': 'DEBUG',
+    },
+        'loggers': {
+        'django': {
+            'handlers': ['db'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

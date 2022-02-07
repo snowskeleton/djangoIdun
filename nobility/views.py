@@ -125,6 +125,7 @@ def part(request, part):
             f" [{part.name}].",
         ]
         Note.log(part.ticket, ''.join(body), request)
+
         return redirect(f"/ticket/{part.ticket.id}")
 
     return render(request, "nobility/part.html", {'form': form , 'part': part})

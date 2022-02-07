@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'royal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'nobelity',
+        'NAME': 'treasure',
         'USER': 'king',
         'PASSWORD': 'gold',
         'HOST': 'localhost',

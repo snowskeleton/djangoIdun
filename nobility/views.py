@@ -14,6 +14,7 @@ from royal.settings import EXPORT_PATH
 from .forms import *
 from .models import Ticket, Part, Note
 from .ncsv import *
+from .nquery import *
 
 
 class HomeListView(ListView):
@@ -164,6 +165,7 @@ def changeStateOf(request, ticket):
 
     return render(request, "nobility/changeStateOf.html", {"form": form, "ticket": ticket})
 
+@login_required
 def advancedSearchView(request):
     return render(request, "nobility/advancedSearch.html")
 
@@ -171,37 +173,11 @@ def advancedSearchView(request):
 # GET: accepts  nothing and uses request.GET['q'] to fetch objects from database. returns Ticket() list
 @login_required
 def searchResultsView(request):
-    get = request.GET
-
-    query = get['q']
-    queries = (( # effectly a 'full-text' search, but sqlite is special
-        Q(id__icontains=query) |
-        Q(serial__icontains=query) |
-        Q(model__icontains=query) |
-        Q(claim__icontains=query) |
-        Q(customer__icontains=query)) &
-        Q(state__in=get.getlist('state'))
-    )
-
-    fields = [ 
-        [None, 'serial', ''],
-        [None, 'model', ''],
-        [None, 'asset', ''],
-        [None, 'customer', ''],
-    ]
-    for field in fields:
-        if f'{field[1]}' in get.getlist('toggle'):
-            field[0] = True
-            field[2] = f'{get[field[1]]}'
-            queries = queries & Q(**({f'{field[1]}'+'__icontains': f'{field[2]}'}))
-        else:
-            field[0] = False
-
-    tickets = Ticket.objects.filter(queries)
+    tickets = NQuery.tickets(request)
 
     return render(request, "nobility/searchResults.html", {"tickets": tickets})
 
-
+@login_required
 def export(request):
     if request.method == "POST":
         return download_file(request)
@@ -210,6 +186,7 @@ def export(request):
 
 # GET: accepts nothing and uses request params to build a CSV and provide a download link
 # TODO: make this accept paramaters by which to filter the csv
+@login_required
 def download_file(request): # why am I passing in request if I'm not using it?
     # creates a new .csv file with the requested information
     req = NCSV(request)

@@ -35,12 +35,15 @@ def ticket(request, ticket):
     form = ButtonButton(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
+        # these all redirect to different pages
         if request.POST['action'] == 'Add Part':
             return redirect(f"/addPart/{ticket.id}")
         if request.POST['action'] == 'Add Note':
             return redirect(f"/note/{ticket.id}")
         if request.POST['action'] == 'Edit':
             return redirect(f"/editTicket/{ticket.id}")
+
+        # these don't redirect anywhere, which reloads the page
         if request.POST['action'] == 'Order All':
             ticket.orderAll(request.user)
         if request.POST['action'] == 'Replace All':

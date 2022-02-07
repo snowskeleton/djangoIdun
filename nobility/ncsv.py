@@ -5,7 +5,6 @@ class NCSV():
     def __init__(self, request):
         self.table = request.POST['table']
         self.filename = 'export.csv'
-        # params = request.POST['search criteria']
         if self.table == 'Tickets':
             Ticket.csvExport()
         if self.table == 'Parts':

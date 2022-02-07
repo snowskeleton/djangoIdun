@@ -41,6 +41,10 @@ def ticket(request, ticket):
             return redirect(f"/note/{ticket.id}")
         if request.POST['action'] == 'Edit':
             return redirect(f"/editTicket/{ticket.id}")
+        if request.POST['action'] == 'Order All':
+            ticket.orderAll(request.user)
+        if request.POST['action'] == 'Replace All':
+            ticket.replaceAll(request.user)
 
     return render(request, "nobility/ticket.html", {'ticket': ticket })
 
@@ -61,7 +65,6 @@ def addPart(request, ticket):
                     body=f"[{part.name}] added: {part.reason}",
                     ticket=ticket,
                     user=request.user,
-                    # reason=request.POST['reason']
                     )
         return redirect(f"/ticket/{ticket.id}")
 

@@ -94,6 +94,22 @@ class Ticket(models.Model):
             prettyParts.append(part.name)
         return '; '.join(prettyParts) if len(prettyParts) > 0 else '--none--'
 
+    # marks all parts for self as Ordered
+    def orderAll(self, user):
+        for part in self.parts():
+            if part.ordered == False:
+                part.ordered = True
+                Note.log(part.ticket, f"Ordered [{part.name}].", user=user)
+                part.save()
+    
+    # marks all parts for self as Replaced
+    def replaceAll(self, user):
+        for part in self.parts():
+            if part.replaced == False:
+                part.replaced = True
+                Note.log(part.ticket, f"Replaced [{part.name}].", user=user)
+                part.save()
+
     @classmethod
     def csvExport(self, queryset=None):
         import csv
@@ -146,14 +162,12 @@ class Note(models.Model):
 
     # accepts HTTP request, text string, and ticket() object. creates note for ticket with string
     @classmethod
-    # def log(self, ticket):
-    def log(self, ticket, body, request):
+    def log(self, ticket, body, request=None, user=None):
         Note.objects.create(
         body=body,
         ticket=ticket,
-        user=request.user
+        user=(request.user if request else user)
         )
-
     
 
 class Part(models.Model):

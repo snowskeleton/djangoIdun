@@ -3,6 +3,7 @@ from django.db.models import Q
 
 class NQuery():
 
+    # accepts HTTP request. returns QuerySet object filtered by params in request if possible, otherwise returns all Ticket()s.
     @classmethod
     def tickets(self, request):
         try:

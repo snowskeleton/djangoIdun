@@ -27,7 +27,7 @@ sudo a2dissite 000-default.conf
 # permissions and db
 sudo rm db.sqlite3
 sudo touch db.sqlite3 && mkdir media
-sudo chown www-data:www-data  db.sqlite3
+sudo chown www-data:www-data db.sqlite3
 sudo python3 manage.py migrate --run-syncdb
 sudo python3 manage.py makemigrations
 sudo python3 manage.py migrate

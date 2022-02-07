@@ -70,7 +70,7 @@ WSGI_APPLICATION = 'royal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
+DATABASES = { #TODO: move this to a config file that doesn't get tracked with source control
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'treasure',

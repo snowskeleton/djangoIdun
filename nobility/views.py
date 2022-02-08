@@ -139,6 +139,7 @@ def addTicket(request):
 
     if request.method == "POST" and form.is_valid():
         ticket = form.save(commit=False)
+        ticket.serial = (ticket.serial).upper()
         ticket.save()
         return redirect(f"/ticket/{ticket.id}")
 

@@ -178,21 +178,19 @@ def advancedSearchView(request):
 # GET: accepts  nothing and uses request.GET['q'] to fetch objects from database. returns Ticket() list
 @login_required
 def searchResultsView(request):
-    tickets = NQuery.tickets(request)
+    tickets = Ticket.objects.filter(NQuery.tickets(request))
 
     return render(request, "nobility/searchResults.html", {"tickets": tickets})
 
 @login_required
 def export(request):
-    if request.method == "POST":
-        return download_file(request)
     return render(request, "nobility/export.html")
 
 
 # GET: accepts nothing and uses request params to build a CSV and provide a download link
 # TODO: make this accept paramaters by which to filter the csv
 @login_required
-def download_file(request): # why am I passing in request if I'm not using it?
+def download(request): # why am I passing in request if I'm not using it?
     # creates a new .csv file with the requested information
     req = NCSV(request)
 

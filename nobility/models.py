@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Q
+from nobility.nquery import NQuery
 
 from royal.settings import EXPORT_PATH
 from . import longLists
@@ -14,7 +15,7 @@ class Ticket(models.Model):
 
     creationDate = models.DateTimeField("date logged", auto_now_add=True)
     serial = models.CharField(max_length=30, null=True, blank=True)
-    assetTag = models.CharField(max_length=30, null=True, blank=True)
+    asset = models.CharField(max_length=30, null=True, blank=True)
     customer = models.CharField(max_length=30, null=True, blank=False)
     claim = models.CharField(max_length=30, null=True, blank=True)
     state = models.CharField(
@@ -46,7 +47,7 @@ class Ticket(models.Model):
         post = request.POST
         self.serial = post['serial']
         self.model = post['model']
-        self.assetTag = post['assetTag']
+        self.asset = post['asset']
         self.customer = post['customer']
         self.claim = post['claim']
         self.state = post['state']
@@ -114,7 +115,8 @@ class Ticket(models.Model):
     @classmethod
     def csvExport(self, queryset=None):
         import csv
-        header = [ 'id',
+        header = [
+            'id',
             'model',
             'serial',
             'asset',
@@ -128,7 +130,7 @@ class Ticket(models.Model):
             writer = csv.writer(f)
             writer.writerow(header)
 
-            tickets = Ticket.objects.all() if queryset == None else Ticket.objects.filter(queryset)
+            tickets = Ticket.objects.all() if queryset == None else Ticket.objects.filter(NQuery.tickets(queryset))
             for ticket in tickets:
                 data = ticket.__list__()
                 writer = csv.writer(f)
@@ -142,7 +144,7 @@ class Ticket(models.Model):
             f'{self.id}',
             f'{self.model}',
             f'{self.serial}',
-            f'{self.assetTag}',
+            f'{self.asset}',
             f'{self.customer}',
             f'{self.state}',
             f'{self.cost()}',
@@ -214,7 +216,7 @@ class Part(models.Model):
             writer = csv.writer(f)
             writer.writerow(header)
 
-            parts = Part.objects.all() if queryset == None else Part.objects.filter(queryset)
+            parts = Part.objects.all() if queryset == None else Part.objects.filter(NQuery.parts(queryset))
             for part in parts:
                 writer = csv.writer(f)
                 writer.writerow(part.__list__())

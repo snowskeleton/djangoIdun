@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ('serial', 'model', 'assetTag', 'customer',)
+        fields = ('serial', 'model', 'asset', 'customer',)
 
 
 class TicketEditForm(forms.ModelForm):
@@ -13,13 +13,13 @@ class TicketEditForm(forms.ModelForm):
         super(TicketEditForm, self).__init__(*args, **kwargs)        
         self.fields['serial'].initial = ticket.serial
         self.fields['model'].initial = ticket.model
-        self.fields['assetTag'].initial = ticket.assetTag
+        self.fields['asset'].initial = ticket.asset
         self.fields['customer'].initial = ticket.customer
         self.fields['claim'].initial = ticket.claim
         self.fields['state'].initial = ticket.state
     class Meta:
         model = Ticket
-        fields = ('serial', 'model', 'assetTag', 'customer', 'claim', 'state',)
+        fields = ('serial', 'model', 'asset', 'customer', 'claim', 'state',)
 
 
 class ChangeStateOfForm(forms.ModelForm):

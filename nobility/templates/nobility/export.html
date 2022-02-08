@@ -3,9 +3,28 @@
     Edit {{ ticket.id }}
 {% endblock %}
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <input class="btn" type="submit" name="table" value="Tickets">
-    <input class="btn" type="submit" name="table" value="Parts">
+<form action="{% url 'download' %}" method="GET">
+    New: <input name="state" value="New" type="checkbox" checked=true>
+    Ordered: <input name="state" value="Ordered" type="checkbox" checked=true>
+    Repaired: <input name="state" value="Reparied" type="checkbox" checked=true>
+    Finished: <input name="state" value="Finished" type="checkbox"><br>
+
+    Tickets: <input name="table" value="tickets" type="radio" checked="true">
+    <!-- parts: <input name="table" value="parts" type="radio"> -->
+    <br>
+
+    All: <input name="q" type="text"><br><br>
+
+    Serial: <input name="serial" type="text" placeholder="blank"><br>
+
+    Model: <input name="model" type="text" placeholder="blank"><br>
+
+    Asset: <input name="asset" type="text" placeholder="blank"><br>
+
+    Customer: <input name="customer" type="text" placeholder="blank"><br>
+
+    Claim: <input name="claim" type="text" placeholder="blank"><br>
+
+    <input type="submit" name="action" value="Advance">
 </form>
 {% endblock %}

@@ -118,3 +118,7 @@ tr:nth-child(even) {
     /* margin: 0 auto; */
     display: inline;
 }
+
+input:placeholder-shown { /* thanks, Will */
+    font-style: italic;
+}

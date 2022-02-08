@@ -137,11 +137,7 @@ def addTicket(request):
         ticket = form.save(commit=False)
         ticket.serial = (ticket.serial).upper()
         ticket.save()
-        Note.log(
-            ticket,
-            "created",
-            user=request.user
-        )
+        Note.log(ticket, "created", user=request.user)
         return redirect(f"/ticket/{ticket.id}")
 
     return render(request, "nobility/addTicket.html", {"form": form})

@@ -48,29 +48,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'royal.urls'
 
-LOGGING = {
-        'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'db': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/db.log',
-        },
-    },
-    'root': {
-        'handlers': ['db'],
-        'level': 'DEBUG',
-    },
-        'loggers': {
-        'django': {
-            'handlers': ['db'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-            'propagate': False,
-        },
-    },
-}
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -93,14 +70,20 @@ WSGI_APPLICATION = 'royal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = { #TODO: move this to a config file that doesn't get tracked with source control
+# DATABASES = { #TODO: move this to a config file that doesn't get tracked with source control
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'treasure',
+#         'USER': 'king',
+#         'PASSWORD': 'gold',
+#         'HOST': 'localhost',
+#         'PORT': '', # leaving PORT blank means default, 5432
+#     }
+# }
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'treasure',
-        'USER': 'king',
-        'PASSWORD': 'gold',
-        'HOST': 'localhost',
-        'PORT': '', # leaving PORT blank means default, 5432
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

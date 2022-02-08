@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Q
 
 from royal.settings import EXPORT_PATH
 from . import longLists
@@ -150,26 +151,6 @@ class Ticket(models.Model):
             ]
 
 
-class Device(models.Model):
-    model = models.CharField(max_length=127)
-
-
-class Note(models.Model):
-    body = models.TextField()
-    date = models.DateTimeField("date created", auto_now_add=True)
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-
-    # accepts HTTP request, text string, and ticket() object. creates note for ticket with string
-    @classmethod
-    def log(self, ticket, body, request=None, user=None):
-        Note.objects.create(
-        body=body,
-        ticket=ticket,
-        user=(request.user if request else user)
-        )
-    
-
 class Part(models.Model):
     @classmethod
     def fromID(self, part):
@@ -237,3 +218,33 @@ class Part(models.Model):
             for part in parts:
                 writer = csv.writer(f)
                 writer.writerow(part.__list__())
+
+class Device(models.Model):
+    model = models.CharField(max_length=127)
+
+
+class Note(models.Model):
+    body = models.TextField()
+    date = models.DateTimeField("date created", auto_now_add=True)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+
+    # accepts HTTP request, text string, and ticket() object. creates note for ticket with string
+    @classmethod
+    def log(self, ticket, body, request=None, user=None):
+        Note.objects.create(
+        body=body,
+        ticket=ticket,
+        user=(request.user if request else user)
+        )
+    
+
+class AdvancedQuery(models.Model):
+    tag = models.CharField(max_length=127, null=True, blank=True)
+    value = models.CharField(max_length=127, null=True, blank=True)
+
+    def query(self):
+        return Q(**{self.tag + '__icontains': self.value })
+
+    def __str__(self):
+        return f'{self.tag}'

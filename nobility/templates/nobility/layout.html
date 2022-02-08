@@ -16,6 +16,7 @@
     <a href="{% url 'logout' %}"> <img alt="account" class="navbar-brand right" width=40 height=40 src="{% static 'hello/media/account.png' %}"> </a>
     <form action="{% url 'searchResults' %}" method="get">
         <input name="q" type="text" placeholder="Search">
+        <input type="submit" name="action" value="Search!">
         New: <input name="state" value="New" type="checkbox" checked=true>
         Ordered: <input name="state" value="Ordered" type="checkbox" checked=true>
         Repaired: <input name="state" value="Reparied" type="checkbox" checked=true>

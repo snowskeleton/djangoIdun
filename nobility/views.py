@@ -1,12 +1,8 @@
-# from turtle import down
-# from django.http import QueryDict
-# from django.utils.timezone import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-# import os
 from django.http.response import HttpResponse
 
 from royal.settings import EXPORT_PATH

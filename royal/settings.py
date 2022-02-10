@@ -23,6 +23,10 @@ SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 EXPORT_PATH = 'tmp/'
 DEBUG = True
+if DEBUG == True:
+    from royal.database import TESTDB as DATABASE #database config ##TODO: make prettier?
+else:
+    from royal.database import PRODDB as DATABASE 
 
 # Application definitionenviron
 
@@ -66,26 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'royal.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# DATABASES = { #TODO: move this to a config file that doesn't get tracked with source control
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'treasure',
-#         'USER': 'king',
-#         'PASSWORD': 'gold',
-#         'HOST': 'localhost',
-#         'PORT': '', # leaving PORT blank means default, 5432
-#     }
-# }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation

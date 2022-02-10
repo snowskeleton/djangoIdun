@@ -109,8 +109,11 @@ class Ticket(models.Model):
         for part in self.parts():
             if part.replaced == False:
                 part.replaced = True
+                part.ticket.state = 'Repaired'
                 Note.log(part.ticket, f"Replaced [{part.name}].", user=user)
+                Note.log(self, f"Status changed to [Repaired].", user=user)
                 part.save()
+                part.ticket.save()
 
     @classmethod
     def csvExport(self, queryset=None):
@@ -232,6 +235,7 @@ class Note(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
     # accepts HTTP request, text string, and ticket() object. creates note for ticket with string
+    # you have to specify EITHER request or user. defaults to request.
     @classmethod
     def log(self, ticket, body, request=None, user=None):
         Note.objects.create(

@@ -180,6 +180,8 @@ def advancedSearchView(request):
 def searchResultsView(request):
     tickets = Ticket.objects.filter(NQuery.tickets(request))
 
+    if len(tickets) == 1:
+        return redirect(f"/ticket/{tickets[0].id}")
     return render(request, "nobility/searchResults.html", {"tickets": tickets})
 
 @login_required

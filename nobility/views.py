@@ -183,6 +183,8 @@ def searchResultsView(request):
     if len(tickets) == 1:
         return redirect(f"/ticket/{tickets[0].id}")
     return render(request, "nobility/searchResults.html", {"tickets": tickets})
+    # TODO: make this redirect elsewhere if no results, and show the search term that got no results
+    ##"No results found for term: <term>"
 
 @login_required
 def export(request):
